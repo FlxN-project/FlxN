@@ -16,15 +16,18 @@ public class DataBaseServiceImpl implements Service,Runnable {
 		this.messageSystem = messageSystem;
 		this.address = new Address();
 		this.messageSystem.registerService(getAddress());
-		System.out.println("service loaded");
 	}
 
 	@Override
 	public void run() {
+		long startRound;
+		long endRound;
 		while (true){
+			startRound = System.nanoTime();
 			messageSystem.execMessage(this);
+			endRound = System.nanoTime();
 			try {
-				Thread.sleep(100);
+				Thread.sleep(100-((endRound-startRound)/1000000));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

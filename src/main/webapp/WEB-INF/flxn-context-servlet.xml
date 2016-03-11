@@ -9,6 +9,8 @@
 
         <context:component-scan base-package="com.flxn.*"/>
 
+
+
         <bean id="messageSystem" class="com.flxn.message.system.MessageSystem"></bean>
 
         <bean id="frontEndService" class="com.flxn.service.impl.FrontEndServiceImpl">
@@ -21,6 +23,33 @@
 
         <bean id="accountService" class="com.flxn.service.impl.AccountServiceImpl">
             <constructor-arg ref="messageSystem"></constructor-arg>
+        </bean>
+
+        <bean id="frontEndServiceThread" class="java.lang.Thread">
+            <constructor-arg ref="frontEndService"></constructor-arg>
+        </bean>
+
+        <bean id="dataBaseServiceThread" class="java.lang.Thread">
+            <constructor-arg ref="dataBaseService"></constructor-arg>
+        </bean>
+
+        <bean id="accountServiceThread" class="java.lang.Thread">
+            <constructor-arg ref="accountService"></constructor-arg>
+        </bean>
+
+        <bean id="invokeAccount" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+            <property name="targetObject"><ref bean="accountServiceThread"/></property>
+            <property name="targetMethod"><value>start</value></property>
+        </bean>
+
+        <bean id="invokeFrontEnd" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+            <property name="targetObject"><ref bean="frontEndServiceThread"/></property>
+            <property name="targetMethod"><value>start</value></property>
+        </bean>
+
+        <bean id="invokeDataBase" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+            <property name="targetObject"><ref bean="dataBaseServiceThread"/></property>
+            <property name="targetMethod"><value>start</value></property>
         </bean>
 
 </beans>

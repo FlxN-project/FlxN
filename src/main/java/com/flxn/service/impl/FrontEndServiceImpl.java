@@ -20,10 +20,14 @@ public class FrontEndServiceImpl implements Service,Runnable {
 
 	@Override
 	public void run() {
+		long startRound;
+		long endRound;
 		while (true){
+			startRound = System.nanoTime();
 			messageSystem.execMessage(this);
+			endRound = System.nanoTime();
 			try {
-				Thread.sleep(100);
+				Thread.sleep(100-((endRound-startRound)/1000000));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
