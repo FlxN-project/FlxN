@@ -7,6 +7,6 @@ import com.flxn.message.system.MessageSystem;
  * Created by Gadzzzz on 11.03.2016.
  */
 public interface Service {
-	public Address getAddress();
-	public MessageSystem getMessageSystem();
+	Address getAddress();
+	MessageSystem getMessageSystem();
 }

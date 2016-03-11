@@ -2,7 +2,7 @@ package com.flxn.message.impl;
 
 import com.flxn.address.Address;
 import com.flxn.message.api.MsgToAccount;
-import com.flxn.service.impl.AccountService;
+import com.flxn.service.impl.AccountServiceImpl;
 
 /**
  * Created by Gadzzzz on 11.03.2016.
@@ -14,7 +14,7 @@ public class MsgToAccountAuthUserImpl extends MsgToAccount {
 	}
 
 	@Override
-	public void exec(AccountService accountService) {
+	public void exec(AccountServiceImpl accountService) {
 
 	}
 }

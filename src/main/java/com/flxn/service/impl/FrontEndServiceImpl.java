@@ -7,14 +7,15 @@ import com.flxn.service.api.Service;
 /**
  * Created by Gadzzzz on 11.03.2016.
  */
-public class DataBaseService implements Service,Runnable {
+public class FrontEndServiceImpl implements Service,Runnable {
 
 	private Address address;
 	private MessageSystem messageSystem;
 
-	public DataBaseService(MessageSystem messageSystem) {
+	public FrontEndServiceImpl(MessageSystem messageSystem) {
 		this.messageSystem = messageSystem;
 		this.address = new Address();
+		this.messageSystem.registerService(getAddress());
 	}
 
 	@Override

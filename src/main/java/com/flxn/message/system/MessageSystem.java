@@ -14,7 +14,15 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class MessageSystem {
 
-	private final Map<Address,ConcurrentLinkedQueue<Msg>> messages = new HashMap<Address, ConcurrentLinkedQueue<Msg>>();
+	private final Map<Address,ConcurrentLinkedQueue<Msg>> messages;
+
+	public MessageSystem() {
+		this.messages = new HashMap<Address, ConcurrentLinkedQueue<Msg>>();
+	}
+
+	public void registerService(Address address){
+		messages.put(address,new ConcurrentLinkedQueue<Msg>());
+	}
 
 	public void sendMessage(Msg message){
 		Queue<Msg> serviceQueue = messages.get(message.getTo());

@@ -2,7 +2,7 @@ package com.flxn.message.api;
 
 import com.flxn.address.Address;
 import com.flxn.service.api.Service;
-import com.flxn.service.impl.AccountService;
+import com.flxn.service.impl.AccountServiceImpl;
 
 /**
  * Created by Gadzzzz on 11.03.2016.
@@ -15,10 +15,10 @@ public abstract class MsgToAccount extends Msg {
 
 	@Override
 	public void exec(Service service) {
-		if(service instanceof AccountService)
-			exec((AccountService) service);
+		if(service instanceof AccountServiceImpl)
+			exec((AccountServiceImpl) service);
 		throw new RuntimeException("Wrong Service");
 	}
 
-	public abstract void exec(AccountService accountService);
+	public abstract void exec(AccountServiceImpl accountService);
 }
