@@ -7,9 +7,9 @@ import com.flxn.service.impl.DataBaseService;
 /**
  * Created by Gadzzzz on 11.03.2016.
  */
-public class MsgToDataBaseImpl extends MsgToDataBase {
+public class MsgToDataBaseVerifyUserImpl extends MsgToDataBase {
 
-	public MsgToDataBaseImpl(Address to, Address from) {
+	public MsgToDataBaseVerifyUserImpl(Address to, Address from) {
 		super(to, from);
 	}
 

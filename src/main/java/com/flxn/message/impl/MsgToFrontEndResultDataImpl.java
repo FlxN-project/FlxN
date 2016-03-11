@@ -7,9 +7,9 @@ import com.flxn.service.impl.FrontEndService;
 /**
  * Created by Gadzzzz on 11.03.2016.
  */
-public class MsgToFrontEndImpl extends MsgToFrontEnd {
+public class MsgToFrontEndResultDataImpl extends MsgToFrontEnd {
 
-	public MsgToFrontEndImpl(Address to, Address from) {
+	public MsgToFrontEndResultDataImpl(Address to, Address from) {
 		super(to, from);
 	}
 
