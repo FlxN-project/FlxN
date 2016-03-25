@@ -1,9 +1,7 @@
 package com.flxn.security;
 
+import com.flxn.fake.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,22 +15,18 @@ public class TokenAuthenticationService {
 	@Autowired
 	private TokenHandler tokenHandler;
 
-//	public TokenAuthenticationService(String secret/*, UserService userService*/) {
-//		tokenHandler = new TokenHandler(secret, userService);
-//	}
-
-	public void addAuthentication(HttpServletResponse response, UserAuthentication authentication) {
-		final User user = authentication.getDetails();
+	public void addAuthentication(HttpServletResponse response, User authUser) {
+		final User user = authUser;
 		String token = tokenHandler.createTokenForUser(user);
 		response.addHeader(AUTH_HEADER_NAME, token);
 	}
 
-	public Authentication getAuthentication(HttpServletRequest request) {
+	public User getAuthentication(HttpServletRequest request) {
 		final String token = request.getHeader(AUTH_HEADER_NAME);
 		if (token != null) {
 			final User user = tokenHandler.parseUserFromToken(token);
 			if (user != null) {
-				return new UserAuthentication(user);
+				return user;
 			}
 		}
 		return null;

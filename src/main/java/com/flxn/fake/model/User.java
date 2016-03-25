@@ -7,23 +7,20 @@ public class User {
 	private int id;
 	private String email;
 	private String password;
-	private String role;
 
 	public User() {
 	}
 
-	public User(int id, String email, String password, String role) {
+	public User(int id, String email, String password) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
-		this.role = role;
 	}
 
-	public User(String email, String password, String role) {
+	public User(String email, String password) {
 		this.id = -1;
 		this.email = email;
 		this.password = password;
-		this.role = role;
 	}
 
 	public int getId() {
@@ -50,14 +47,6 @@ public class User {
 		this.password = password;
 	}
 
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
-
 	public static Builder getBuilder() {
 		return new Builder();
 	}
@@ -66,7 +55,6 @@ public class User {
 		private int id = -1;
 		private String email = "oda21101@mail.ru";
 		private String password = "123";
-		private String role = "USER_ROLE";
 
 		public Builder id(int id){
 			this.id = id;
@@ -83,13 +71,8 @@ public class User {
 			return this;
 		}
 
-		public Builder role(String role){
-			this.role = role;
-			return this;
-		}
-
 		public User build(){
-			return new User(id,email,password,role);
+			return new User(id,email,password);
 		}
 	}
 

@@ -14,14 +14,17 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class MessageSystem {
 
+	private final Map<Class<?>,Address> services;
 	private final Map<Address,ConcurrentLinkedQueue<Msg>> messages;
 
 	public MessageSystem() {
-		this.messages = new HashMap<Address, ConcurrentLinkedQueue<Msg>>();
+		this.messages = new HashMap<>();
+		this.services = new HashMap<>();
 	}
 
-	public void registerService(Address address){
+	public void registerService(Class<?> service,Address address){
 		messages.put(address,new ConcurrentLinkedQueue<Msg>());
+		services.put(service,address);
 	}
 
 	public void sendMessage(Msg message){
@@ -35,5 +38,9 @@ public class MessageSystem {
 			Msg message = serviceQueue.poll();
 			message.exec(service);
 		}
+	}
+
+	public Address getService(Class<?> service){
+		return services.get(service);
 	}
 }

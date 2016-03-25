@@ -24,7 +24,7 @@ public class DataBaseServiceImpl implements Service,Runnable {
 	public DataBaseServiceImpl(MessageSystem messageSystem) {
 		this.messageSystem = messageSystem;
 		this.address = new Address();
-		this.messageSystem.registerService(getAddress());
+		this.messageSystem.registerService(DataBaseServiceImpl.class,getAddress());
 	}
 
 	@Override
