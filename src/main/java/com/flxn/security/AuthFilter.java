@@ -32,11 +32,10 @@ public class AuthFilter implements Filter {
 			User user = authenticationService.getAuthentication(httpRequest);
 			if (user != null) {
 				request.setAttribute("auth", user);
-				filterChain.doFilter(request, response);
 			}else
-				httpResponse.setStatus(403);
+				httpResponse.sendError(403,"Access denied");
 		}
-		filterChain.doFilter(request, response);
+		filterChain.doFilter(httpRequest, response);
 	}
 
 	@Override

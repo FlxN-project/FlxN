@@ -6,7 +6,7 @@ import com.flxn.message.api.Msg;
 import com.flxn.message.impl.MsgToDataBaseVerifyUserImpl;
 import com.flxn.message.system.MessageSystem;
 import com.flxn.service.api.Service;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import com.flxn.service.api.UserService;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Created by Gadzzzz on 15.03.2016.
  */
-public class UserServiceImpl implements Service,Runnable{
+public class UserServiceImpl implements UserService,Runnable{
 
 	private Address address;
 	private MessageSystem messageSystem;
@@ -29,7 +29,7 @@ public class UserServiceImpl implements Service,Runnable{
 		this.users = Collections.synchronizedMap(new HashMap());
 	}
 
-	public void loadUserByUsername(String email) throws UsernameNotFoundException {
+	public void loadUserByEmail(String email) {
 		Msg getUser = new MsgToDataBaseVerifyUserImpl(messageSystem.getService(DataBaseServiceImpl.class),getAddress(),email);
 		messageSystem.sendMessage(getUser);
 	}

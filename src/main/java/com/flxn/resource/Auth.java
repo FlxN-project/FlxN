@@ -29,7 +29,7 @@ public class Auth {
 	public ResponseEntity<?> token(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-		userService.loadUserByUsername(email);
+		userService.loadUserByEmail(email);
 		boolean waiting = true;
 		User user = null;
 		while(waiting){
@@ -57,10 +57,9 @@ public class Auth {
 		return responseEntity;
 	}
 
-	@RequestMapping(value = "/welcome",method = RequestMethod.POST)
-	public ResponseEntity<?> check(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	@RequestMapping(value = "/welcome",method = RequestMethod.GET)
+	public ResponseEntity<User> check(HttpServletRequest request) throws IOException {
 		User user = (User) request.getAttribute("auth");
-		ResponseEntity responseEntity = new ResponseEntity(user,HttpStatus.OK);
-		return responseEntity;
+		return new ResponseEntity(user,HttpStatus.OK);
 	}
 }
