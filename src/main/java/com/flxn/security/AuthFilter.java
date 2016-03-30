@@ -13,9 +13,14 @@ import java.io.IOException;
 public class AuthFilter implements Filter {
 
 	private final TokenAuthenticationService authenticationService;
+	private final String[] paths;
 
 	public AuthFilter(TokenAuthenticationService authenticationService) {
 		this.authenticationService = authenticationService;
+		this.paths = new String[]{
+			"/resource/auth",
+			"/resource/register",
+			"/resource/error"};
 	}
 
 	@Override
@@ -28,12 +33,15 @@ public class AuthFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		String requestPath = httpRequest.getRequestURI();
-		if(!requestPath.equals("/resource/auth")) {
+		System.out.println("FROM AUTH FILTER");
+		if(!availablePath(requestPath)) {
 			User user = authenticationService.getAuthentication(httpRequest);
-			if (user != null) {
+			if (user != null)
 				request.setAttribute("auth", user);
-			}else
-				httpResponse.sendError(403,"Access denied");
+			else {
+				httpRequest.getRequestDispatcher("/resource/error?stcode=403").forward(request, response);
+				return;
+			}
 		}
 		filterChain.doFilter(httpRequest, response);
 	}
@@ -41,5 +49,15 @@ public class AuthFilter implements Filter {
 	@Override
 	public void destroy() {
 
+	}
+
+	private boolean availablePath(String pathToCheck){
+		boolean available = false;
+		for (String path:paths)
+			if(path.equals(pathToCheck)){
+				available = true;
+				break;
+			}
+		return available;
 	}
 }
