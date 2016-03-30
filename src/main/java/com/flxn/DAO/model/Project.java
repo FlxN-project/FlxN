@@ -1,4 +1,4 @@
-package com.flxn.DAO.model;
+package com.flxn.dao.model;
 
 
 /**
