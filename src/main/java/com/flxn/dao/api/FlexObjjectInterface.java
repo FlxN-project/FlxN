@@ -12,6 +12,5 @@ import java.util.List;
  */
 public interface FlexObjjectInterface {
    FlexObjject create (Objject objject);
-   String getValueByAtribute(Atribute atribute);
    List<FlexObjject> getFlexObjjectListByClass(Clazz clazz);
 }

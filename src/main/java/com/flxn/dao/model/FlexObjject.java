@@ -2,13 +2,14 @@ package com.flxn.dao.model;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by X8 on 31.03.2016.
  */
 public class FlexObjject {
     private String name;
-    private HashMap<String,String> atributeValue;
+    private HashMap atributeValue=new HashMap<String,String>();
 
     public FlexObjject(){}
     public FlexObjject(Objject objject, List<Atribute> atributes,List<Value> values) {
@@ -38,5 +39,8 @@ public class FlexObjject {
 
     public HashMap<String, String> getAtributeValue() {
         return atributeValue;
+    }
+    public String getValueByAtribute(Atribute atribute){
+    return  getAtributeValue().get(atribute.getName());
     }
 }
