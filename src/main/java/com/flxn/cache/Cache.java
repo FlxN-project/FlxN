@@ -1,6 +1,5 @@
 package com.flxn.cache;
 
-import com.flxn.fake.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -22,6 +21,20 @@ public class Cache<T extends ResponseEntity<List<?>>> {
 
 	public boolean exist(int project){
 		return cache.containsKey(project);
+	}
+
+	public boolean exist(int project,int object){
+		Object cached = cache.get(project).getBody().get(object);
+		if(cached!=null)
+			return true;
+		return false;
+	}
+
+	public boolean exist(int project,int start,int limit){
+		for(int i=start;i<start+limit;i++)
+			if(!exist(project,i))
+				return false;
+		return true;
 	}
 
 	public T getOne(int project, int object){

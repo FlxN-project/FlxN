@@ -61,7 +61,7 @@
 
         <bean id="cache" class="com.flxn.cache.Cache"></bean>
 
-        <bean id="cacheFilter" class="com.flxn.security.CacheFilter" scope="prototype">
+        <bean id="cacheFilter" class="com.flxn.cache.CacheFilter" scope="prototype">
             <constructor-arg ref="cache"></constructor-arg>
         </bean>
 
