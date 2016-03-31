@@ -45,7 +45,7 @@ public class CacheFilter implements Filter {
 				ExistInCache existInCache = cacheDo.get(path);
 				if(existInCache!=null)
 					if(existInCache.exist(request,cache))
-						httpRequest.getRequestDispatcher(path).forward(request, response);
+						httpRequest.getRequestDispatcher(existInCache.getPath()).forward(request, response);
 			}catch (NumberFormatException e){
 				httpRequest.getRequestDispatcher("/resource/error").forward(request, response);
 				return;

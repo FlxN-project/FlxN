@@ -10,6 +10,8 @@ import javax.servlet.ServletRequest;
  */
 public class ExistRange implements ExistInCache {
 
+	private final String path = "/resource/returncachedrange";
+
 	@Override
 	public boolean exist(ServletRequest request , Cache cache) throws NumberFormatException {
 		int project = Integer.parseInt(request.getParameter("project"));
@@ -18,5 +20,10 @@ public class ExistRange implements ExistInCache {
 		if (cache.exist(project,start,limit))
 			return true;
 		return false;
+	}
+
+	@Override
+	public String getPath() {
+		return path;
 	}
 }

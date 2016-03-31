@@ -10,6 +10,8 @@ import javax.servlet.ServletRequest;
  */
 public class ExistOne implements ExistInCache {
 
+	private final String path = "/resource/returncachedone";
+
 	@Override
 	public boolean exist(ServletRequest request, Cache cache) throws NumberFormatException {
 		int project = Integer.parseInt(request.getParameter("project"));
@@ -17,5 +19,10 @@ public class ExistOne implements ExistInCache {
 		if (cache.exist(project,object))
 			return true;
 		return false;
+	}
+
+	@Override
+	public String getPath() {
+		return path;
 	}
 }

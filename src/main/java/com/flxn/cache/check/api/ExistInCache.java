@@ -9,4 +9,5 @@ import javax.servlet.ServletRequest;
  */
 public interface ExistInCache{
 	boolean exist(ServletRequest request, Cache cache) throws NumberFormatException;
+	String getPath();
 }

@@ -10,11 +10,18 @@ import javax.servlet.ServletRequest;
  */
 public class ExistAll implements ExistInCache {
 
+	private final String path = "/resource/returncachedall";
+
 	@Override
 	public boolean exist(ServletRequest request, Cache cache) throws NumberFormatException {
 		int project = Integer.parseInt(request.getParameter("project"));
 		if (cache.exist(project))
 			return true;
 		return false;
+	}
+
+	@Override
+	public String getPath() {
+		return path;
 	}
 }
