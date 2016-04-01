@@ -45,4 +45,14 @@ public class FlexObjject {
     public String getValueByAtribute(Atribute atribute){
     return  getAtributeValue().get(atribute.getName());
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+
 }
