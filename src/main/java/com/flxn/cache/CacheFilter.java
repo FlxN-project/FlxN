@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by Gadzzzz on 29.03.2016.
@@ -31,9 +32,7 @@ public class CacheFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-
 	}
-
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
@@ -44,8 +43,10 @@ public class CacheFilter implements Filter {
 				String path = httpRequest.getRequestURI();
 				ExistInCache existInCache = cacheDo.get(path);
 				if(existInCache!=null)
-					if(existInCache.exist(request,cache))
+					if(existInCache.exist(request,cache)) {
 						httpRequest.getRequestDispatcher(existInCache.getPath()).forward(request, response);
+						return;
+					}
 			}catch (NumberFormatException e){
 				httpRequest.getRequestDispatcher("/resource/error").forward(request, response);
 				return;

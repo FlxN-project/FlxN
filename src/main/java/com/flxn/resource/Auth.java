@@ -1,6 +1,7 @@
 package com.flxn.resource;
 
 import com.flxn.cache.Cache;
+import com.flxn.dao.model.FlexObjject;
 import com.flxn.fake.model.User;
 import com.flxn.security.TokenAuthenticationService;
 import com.flxn.service.impl.UserServiceImpl;
@@ -14,7 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Gadzzzz on 11.03.2016.
@@ -62,23 +65,25 @@ public class Auth {
 		ResponseEntity responseEntity = new ResponseEntity(HttpStatus.OK);
 
 		// TMP CODE START
-		User user1 = User.getBuilder().build();
-		User user2 = User.getBuilder().build();
-		List<User> list = new ArrayList<>();
-		user1.setId(1);
-		user2.setId(2);
-		list.add(user1);
-		list.add(user2);
-		cache.add(1, new ResponseEntity<List<User>>(list,HttpStatus.OK));
+		FlexObjject flexObjject1 = new FlexObjject();
+		flexObjject1.setName("lala");
+		FlexObjject flexObjject2 = new FlexObjject();
+		flexObjject2.setName("gaga");
+		Map<Integer,FlexObjject> init = new HashMap<>();
+		flexObjject1.setId(1);
+		flexObjject2.setId(2);
+		init.put(flexObjject2.getId(),flexObjject2);
+		init.put(flexObjject1.getId(),flexObjject1);
+		cache.add(1, new ResponseEntity<>(init,HttpStatus.OK));
 		// TMP CODE END
 		return responseEntity;
 	}
 
 	@RequestMapping(value = "/welcome",method = RequestMethod.GET)
-	public ResponseEntity<User> check(HttpServletRequest request) throws IOException {
-		User user = (User) request.getAttribute("auth");
-		user.setEmail("not@from.cache");
-		System.out.println("FROM SERVLET");
-		return new ResponseEntity<User>(user,HttpStatus.OK);
+	public ResponseEntity<?> check(HttpServletRequest request) throws IOException {
+		FlexObjject flexObjject1 = new FlexObjject();
+		flexObjject1.setName("not@from.cache");
+		flexObjject1.setId(3);
+		return new ResponseEntity<>(flexObjject1,HttpStatus.OK);
 	}
 }
