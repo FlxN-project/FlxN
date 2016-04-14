@@ -20,13 +20,13 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean exist(int id) {
-        boolean result=jdbcTemplate.queryForObject(SELECT_BY_EMAIL,new Object[]{id},Integer.class)!=0;
+        boolean result=jdbcTemplate.queryForObject(SELECT_COUNT_EMAIL,new Object[]{id},Integer.class)!=0;
         return result;
     }
 
     @Override
     public boolean exist(String email) {
-            boolean result=jdbcTemplate.queryForObject(SELECT_BY_EMAIL,new Object[]{email},Integer.class)!=0;
+            boolean result=jdbcTemplate.queryForObject(SELECT_COUNT_ID,new Object[]{email},Integer.class)!=0;
             return result;
     }
 
