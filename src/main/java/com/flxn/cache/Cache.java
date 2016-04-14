@@ -1,6 +1,7 @@
 package com.flxn.cache;
 
 import com.flxn.dao.model.FlexObjject;
+import com.google.common.cache.CacheBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -13,21 +14,24 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Cache{
 
-	private final Map<Integer,ResponseEntity<Map<Integer,FlexObjject>>> cache;
+	private int CACHE_SIZE = 1_000_000;
+
+	private final com.google.common.cache.Cache<Integer,ResponseEntity<Map<Integer,FlexObjject>>> cache;
 
 	public Cache() {
-		cache = new ConcurrentHashMap<>();
+		cache = CacheBuilder
+			.newBuilder()
+			.softValues()
+			.maximumSize(CACHE_SIZE)
+			.build();
 	}
 
 	public boolean exist(int project){
-		return cache.containsKey(project);
+		return cache.getIfPresent(project)!=null?true:false;
 	}
 
 	public boolean exist(int project,int object){
-		Object cached = cache.get(project).getBody().get(object);
-		if(cached!=null)
-			return true;
-		return false;
+		return cache.getIfPresent(project).getBody().get(object)!=null?true:false;
 	}
 
 	public boolean exist(int project,int start,int limit){
@@ -37,14 +41,14 @@ public class Cache{
 		return true;
 	}
 
-	public ResponseEntity<Map<Integer,FlexObjject>> getOne(int project, int object){//Wrong realizetion list index != database id
+	public ResponseEntity<Map<Integer,FlexObjject>> getOne(int project, int object){
 		Map<Integer,FlexObjject> resp = new HashMap<>();
-		resp.put(object,cache.get(project).getBody().get(object));
+		resp.put(object,cache.getIfPresent(project).getBody().get(object));
 		return new ResponseEntity<>(resp,HttpStatus.OK);
 	}
 
 	public ResponseEntity<Map<Integer,FlexObjject>> getAll(int project){
-		return cache.get(project);
+		return cache.getIfPresent(project);
 	}
 
 	public void add(int project,ResponseEntity<Map<Integer,FlexObjject>> resp){
