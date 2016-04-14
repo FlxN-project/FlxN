@@ -41,6 +41,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void delete(User object) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
