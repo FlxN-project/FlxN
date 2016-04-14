@@ -64,5 +64,16 @@
         <bean id="cacheFilter" class="com.flxn.cache.CacheFilter" scope="prototype">
             <constructor-arg ref="cache"></constructor-arg>
         </bean>
-
+        <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
+            <property name="driverClassName" value="org.postgresql.Driver"></property>
+            <property name="url" value="jdbc:postgresql://localhost:5432/custom"></property>
+            <property name="username" value="postgres"></property>
+            <property name="password" value="metalist"></property>
+        </bean>
+        <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+            <property name="dataSource" ref="dataSource"></property>
+        </bean>
+        <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+            <property name="dataSource" ref="dataSource"></property>
+        </bean>
 </beans>
