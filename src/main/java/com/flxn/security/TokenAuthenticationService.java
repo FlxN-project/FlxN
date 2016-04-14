@@ -1,6 +1,6 @@
 package com.flxn.security;
 
-import com.flxn.fake.model.User;
+import com.flxn.dao.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

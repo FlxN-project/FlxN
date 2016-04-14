@@ -2,7 +2,7 @@ package com.flxn.resource;
 
 import com.flxn.cache.Cache;
 import com.flxn.dao.model.FlexObjject;
-import com.flxn.fake.model.User;
+import com.flxn.dao.model.User;
 import com.flxn.security.TokenAuthenticationService;
 import com.flxn.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

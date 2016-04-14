@@ -46,8 +46,6 @@
             <property name="targetMethod"><value>start</value></property>
         </bean>
 
-        <bean id="fakeDB" class="com.flxn.fake.database.FakeDB"></bean>
-
         <bean id="authenticationService" class="com.flxn.security.TokenAuthenticationService"></bean>
 
         <bean id="tokenHandler" class="com.flxn.security.TokenHandler" scope="prototype">
@@ -79,4 +77,6 @@
         <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
             <property name="dataSource" ref="dataSource"></property>
         </bean>
+
+        <bean id="userDAO" class="com.flxn.dao.impl.UserDaoImpl" scope="prototype"></bean>
 </beans>

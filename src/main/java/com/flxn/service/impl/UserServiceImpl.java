@@ -1,12 +1,16 @@
 package com.flxn.service.impl;
 
 import com.flxn.address.Address;
-import com.flxn.fake.model.User;
+import com.flxn.dao.api.UserDao;
+import com.flxn.dao.model.User;
 import com.flxn.message.api.Msg;
-import com.flxn.message.impl.MsgToDataBaseVerifyUserImpl;
+import com.flxn.message.impl.MsgToDataBaseGetUserImpl;
+import com.flxn.message.impl.MsgToDataBaseRegisterUserImpl;
 import com.flxn.message.system.MessageSystem;
-import com.flxn.service.api.Service;
 import com.flxn.service.api.UserService;
+import com.flxn.service.logic.Runner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,8 +21,13 @@ import java.util.Map;
  */
 public class UserServiceImpl implements UserService,Runnable{
 
-	private Address address;
-	private MessageSystem messageSystem;
+	@Autowired
+	@Qualifier("userDAO")
+	private UserDao userDao;
+
+	private final Address address;
+	private final MessageSystem messageSystem;
+	private final Runner runner;
 
 	private final Map<String, User> users;
 
@@ -27,10 +36,15 @@ public class UserServiceImpl implements UserService,Runnable{
 		this.address = new Address();
 		this.messageSystem.registerService(UserServiceImpl.class,getAddress());
 		this.users = Collections.synchronizedMap(new HashMap());
+		this.runner = new Runner(this);
 	}
 
 	public void loadUserByEmail(String email) {
-		Msg getUser = new MsgToDataBaseVerifyUserImpl(messageSystem.getService(DataBaseServiceImpl.class),getAddress(),email);
+		Msg getUser = new MsgToDataBaseGetUserImpl(
+			messageSystem.getService(DataBaseServiceImpl.class),
+			getAddress(),
+			email,
+			userDao);
 		messageSystem.sendMessage(getUser);
 	}
 
@@ -46,21 +60,20 @@ public class UserServiceImpl implements UserService,Runnable{
 		return users.get(email);
 	}
 
+	@Override
+	public void register(User user) {
+		Msg registerUser = new MsgToDataBaseRegisterUserImpl(
+			messageSystem.getService(DataBaseServiceImpl.class),
+			getAddress(),
+			user,
+			userDao);
+		messageSystem.sendMessage(registerUser);
+	}
+
 
 	@Override
 	public void run() {
-		long startRound;
-		long endRound;
-		while (true){
-			startRound = System.nanoTime();
-			messageSystem.execMessage(this);
-			endRound = System.nanoTime();
-			try {
-				Thread.sleep(100-((endRound-startRound)/1000000));
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		runner.runner();
 	}
 
 	@Override

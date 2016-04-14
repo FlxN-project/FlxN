@@ -1,5 +1,5 @@
 package com.flxn.security;
-import com.flxn.fake.model.User;
+import com.flxn.dao.model.User;
 import com.flxn.service.impl.UserServiceImpl;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

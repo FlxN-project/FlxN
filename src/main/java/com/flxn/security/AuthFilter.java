@@ -1,6 +1,6 @@
 package com.flxn.security;
 
-import com.flxn.fake.model.User;
+import com.flxn.dao.model.User;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +19,7 @@ public class AuthFilter implements Filter {
 		this.authenticationService = authenticationService;
 		this.paths = new String[]{
 			"/resource/auth",
-			"/resource/register",
+			"/resource/user/register",
 			"/resource/error"};
 	}
 
@@ -33,7 +33,6 @@ public class AuthFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		String requestPath = httpRequest.getRequestURI();
-		System.out.println("FROM AUTH FILTER");
 		if(!availablePath(requestPath)) {
 			User user = authenticationService.getAuthentication(httpRequest);
 			if (user != null)

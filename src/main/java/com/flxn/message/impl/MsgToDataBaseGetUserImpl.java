@@ -1,7 +1,8 @@
 package com.flxn.message.impl;
 
 import com.flxn.address.Address;
-import com.flxn.fake.model.User;
+import com.flxn.dao.api.UserDao;
+import com.flxn.dao.model.User;
 import com.flxn.message.api.Msg;
 import com.flxn.message.api.MsgToDataBase;
 import com.flxn.service.impl.DataBaseServiceImpl;
@@ -9,19 +10,21 @@ import com.flxn.service.impl.DataBaseServiceImpl;
 /**
  * Created by Gadzzzz on 11.03.2016.
  */
-public class MsgToDataBaseVerifyUserImpl extends MsgToDataBase {
+public class MsgToDataBaseGetUserImpl extends MsgToDataBase {
 
 	private String email;
+	private UserDao userDao;
 
-	public MsgToDataBaseVerifyUserImpl(Address to, Address from, String email) {
+	public MsgToDataBaseGetUserImpl(Address to, Address from, String email, UserDao userDao) {
 		super(to, from);
 		this.email = email;
+		this.userDao = userDao;
 	}
 
 	@Override
 	public void exec(DataBaseServiceImpl dataBaseService) {
-		User user = dataBaseService.getFakeDB().getUser(email);
-		Msg back = new MsgToUserServiceImpl(getFrom(),getTo(), user, email);
+		User user = userDao.getByEmail(email);
+		Msg back = new MsgToUserServiceAuthUserImpl(getFrom(),getTo(), user, email);
 		dataBaseService.getMessageSystem().sendMessage(back);
 	}
 }
