@@ -13,19 +13,10 @@ public class Project {
 
     public Project(){}
 
-    public Project(int id,String name,String description,User user){
-        this.id=id;
+    public Project(String name,String description){
         this.name=name;
         this.description=description;
-        this.user=user;
     }
-    public Project(String name,String description,User user){
-        this.id=-1;
-        this.name=name;
-        this.description=description;
-        this.user=user;
-    }
-
     public void setId(int id) {
         this.id = id;
     }
@@ -56,35 +47,5 @@ public class Project {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Builder getBuilder(){ return  new Builder();}
-
-    public static class Builder{
-        private int id=-1;
-        private String name="null";
-        private String description="null";
-        private User user=null;
-
-        public Builder id(int id){
-            this.id=id;
-            return this;
-        }
-
-        public Builder name(String name){
-            this.name=name;
-            return this;
-        }
-
-        public Builder description(String description){
-            this.description=description;
-            return this;
-        }
-        public Builder user(User user){
-            this.user=user;
-            return this;
-        }
-
-        public Project build(){return new Project(id,name,description,user);}
     }
 }

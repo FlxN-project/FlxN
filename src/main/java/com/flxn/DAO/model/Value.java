@@ -11,17 +11,8 @@ public class Value {
 
     public Value(){}
 
-    public Value(int id, String weight, Atribute atribute, Objject objject){
-        this.id=id;
+    public Value(String weight){
         this.weight = weight;
-        this.atribute=atribute;
-        this.objject=objject;
-    }
-    public Value(String weight, Atribute atribute, Objject objject){
-        this.id=-1;
-        this.weight = weight;
-        this.atribute=atribute;
-        this.objject=objject;
     }
 
     public int getId() {
@@ -54,37 +45,5 @@ public class Value {
 
     public void setWeight(String weight) {
         this.weight = weight;
-    }
-
-    public Builder getBuilder(){ return  new Builder();}
-     public static class Builder{
-         private int id=-1;
-         private String weight="-1";
-         private Atribute atribute=null;
-         private Objject objject=null;
-
-         public Builder id(int id){
-             this.id=id;
-             return this;
-         }
-
-         public Builder weight(String weight){
-             this.weight=weight;
-             return this;
-         }
-
-         public Builder atribute(Atribute atribute){
-             this.atribute=atribute;
-             return this;
-         }
-
-         public Builder objject(Objject objject){
-             this.objject=objject;
-             return this;
-         }
-
-         public Value build(){
-             return  new Value(id,weight,atribute,objject);
-         }
     }
 }

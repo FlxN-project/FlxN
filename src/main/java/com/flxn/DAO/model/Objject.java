@@ -10,15 +10,7 @@ public class Objject {
 
     public Objject(){}
 
-    public Objject(int id,Clazz clazz,String link){
-        this.id=id;
-        this.clazz=clazz;
-        this.link=link;
-    }
-
-    public Objject(Clazz clazz,String link){
-        this.id=-1;
-        this.clazz=clazz;
+    public Objject(String link){
         this.link=link;
     }
 
@@ -45,26 +37,5 @@ public class Objject {
     public void setLink(String link) {
         this.link = link;
     }
-    public Builder getBuilder(){ return  new Builder();}
 
-    public static class Builder{
-        private int id=-1;
-        private Clazz clazz=null;
-        private String link=null;
-
-        public Builder id(int id){
-            this.id=id;
-            return this;
-        }
-        public Builder clazz(Clazz clazz){
-            this.clazz=clazz;
-            return this;
-        }
-        public Builder link(String link){
-            this.link=link;
-            return this;
-        }
-
-        public Objject build(){return new Objject(id,clazz,link);}
-    }
 }
