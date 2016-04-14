@@ -42,13 +42,12 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User create(User object) {
+    public void create(User object) {
         if(!exist(object.getEmail()))
         {
-            jdbcTemplate.queryForObject(INSERT_USER,new Object[]{object.getEmail(),object.getPassword()},new UserRowMapper());
-            return object;
-         }
-        return null;
+            jdbcTemplate.update(INSERT_USER,new Object[]{object.getEmail(),object.getPassword()});
+         } else
+           throw new UnsupportedOperationException();
     }
 
     @Override
