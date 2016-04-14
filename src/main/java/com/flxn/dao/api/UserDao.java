@@ -8,8 +8,9 @@ import com.flxn.dao.model.User;
 public interface UserDao extends GenericDao<User> {
  boolean exist (int id);
  boolean exist(String email);
+ User getByEmail(String email);
  String INSERT_USER="INSERT INTO \"USERS\" VALUES(DEFAULT,?,?)";
  String UPATE_USER_BY_ID="UPDATE \"USERS\" SET  \"EMAIL\"=?, \"PASSWORD\"=? WHERE \"USER_ID\"=?  ";
- String SELECT_BY_ID="SELECT \"EMAIL\",\"PASSWORD\" FROM \"USERS\" WHERE \"USER_ID\"=? ";
- String SELECT_BY_EMAIL="SELECT \"USER_ID\" FROM \"USERS\" WHERE \"EMAIL\"=? ";
+ String SELECT_BY_ID="SELECT \"USER_ID\",\"EMAIL\",\"PASSWORD\" FROM \"USERS\" WHERE \"USER_ID\"=? ";
+ String SELECT_BY_EMAIL="SELECT \"USER_ID\",\"EMAIL\",\"PASSWORD\" FROM \"USERS\" WHERE \"EMAIL\"=? ";
 }

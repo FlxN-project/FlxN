@@ -29,6 +29,18 @@ public class UserDaoImpl implements UserDao {
             boolean result=jdbcTemplate.queryForObject(SELECT_BY_EMAIL,new Object[]{email},Integer.class)!=0;
             return result;
     }
+
+    @Override
+    public User getByEmail(String email) {
+        if (exist(email)){
+            User user=jdbcTemplate.queryForObject(SELECT_BY_EMAIL,new Object[]{email},new UserRowMapper());
+            return user;
+        }
+        else {
+            return null;
+        }
+    }
+
     @Override
     public User create(User object) {
         if(!exist(object.getEmail()))
