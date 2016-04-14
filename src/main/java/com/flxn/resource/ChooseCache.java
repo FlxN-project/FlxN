@@ -23,14 +23,14 @@ public class ChooseCache {
 		int project = Integer.parseInt(request.getParameter("project"));
 		int start = Integer.parseInt(request.getParameter("start"));
 		int limit = Integer.parseInt(request.getParameter("limit"));
-		return null;
+		return cache.getRange(project,start,limit);
 	}
 
 	@RequestMapping(value = "/returncachedone", method = RequestMethod.GET)
 	private ResponseEntity returnCachedOne(HttpServletRequest request){
 		int project = Integer.parseInt(request.getParameter("project"));
 		int object = Integer.parseInt(request.getParameter("object"));
-		return null;
+		return cache.getOne(project,object);
 	}
 
 	@RequestMapping(value = "/returncachedall", method = RequestMethod.GET)

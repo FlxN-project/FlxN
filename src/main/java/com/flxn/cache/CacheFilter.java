@@ -48,7 +48,7 @@ public class CacheFilter implements Filter {
 						return;
 					}
 			}catch (NumberFormatException e){
-				httpRequest.getRequestDispatcher("/resource/error").forward(request, response);
+				httpRequest.getRequestDispatcher("/resource/error?stcode=400").forward(request, response);
 				return;
 			};
 		}

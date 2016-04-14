@@ -51,6 +51,13 @@ public class Cache{
 		return cache.getIfPresent(project);
 	}
 
+	public ResponseEntity<Map<Integer,FlexObjject>> getRange(int project,int start,int limit){
+		Map<Integer,FlexObjject> resp = new HashMap<>();
+		for(int i=start;i<start+limit;i++)
+			resp.put(i,cache.getIfPresent(project).getBody().get(i));
+		return new ResponseEntity<>(resp,HttpStatus.OK);
+	}
+
 	public void add(int project,ResponseEntity<Map<Integer,FlexObjject>> resp){
 		cache.put(project,resp);
 	}

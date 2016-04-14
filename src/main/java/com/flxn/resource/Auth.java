@@ -63,27 +63,6 @@ public class Auth {
 		}
 		tokenAuthenticationService.addAuthentication(response, user);
 		ResponseEntity responseEntity = new ResponseEntity(HttpStatus.OK);
-
-		// TMP CODE START
-		FlexObjject flexObjject1 = new FlexObjject();
-		flexObjject1.setName("lala");
-		FlexObjject flexObjject2 = new FlexObjject();
-		flexObjject2.setName("gaga");
-		Map<Integer,FlexObjject> init = new HashMap<>();
-		flexObjject1.setId(1);
-		flexObjject2.setId(2);
-		init.put(flexObjject2.getId(),flexObjject2);
-		init.put(flexObjject1.getId(),flexObjject1);
-		cache.add(1, new ResponseEntity<>(init,HttpStatus.OK));
-		// TMP CODE END
 		return responseEntity;
-	}
-
-	@RequestMapping(value = "/welcome",method = RequestMethod.GET)
-	public ResponseEntity<?> check(HttpServletRequest request) throws IOException {
-		FlexObjject flexObjject1 = new FlexObjject();
-		flexObjject1.setName("not@from.cache");
-		flexObjject1.setId(3);
-		return new ResponseEntity<>(flexObjject1,HttpStatus.OK);
 	}
 }
