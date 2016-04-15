@@ -24,6 +24,10 @@
             <constructor-arg ref="messageSystem"></constructor-arg>
         </bean>
 
+        <bean id="projectService" class="com.flxn.service.impl.ProjectServiceImpl">
+            <constructor-arg ref="messageSystem"></constructor-arg>
+        </bean>
+
         <bean id="dataBaseServiceThread" class="java.lang.Thread">
             <constructor-arg ref="dataBaseService"></constructor-arg>
             <property name="daemon" value="true"></property>
@@ -36,6 +40,12 @@
             <property name="name" value="UserService"></property>
         </bean>
 
+        <bean id="projectServiceThread" class="java.lang.Thread">
+            <constructor-arg ref="projectService"></constructor-arg>
+            <property name="daemon" value="true"></property>
+            <property name="name" value="ProjectService"></property>
+        </bean>
+
         <bean id="invokeDataBase" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
             <property name="targetObject"><ref bean="dataBaseServiceThread"/></property>
             <property name="targetMethod"><value>start</value></property>
@@ -43,6 +53,11 @@
 
         <bean id="invokeUserService" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
             <property name="targetObject"><ref bean="userServiceThread"/></property>
+            <property name="targetMethod"><value>start</value></property>
+        </bean>
+
+        <bean id="invokeProjectService" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+            <property name="targetObject"><ref bean="projectServiceThread"/></property>
             <property name="targetMethod"><value>start</value></property>
         </bean>
 
@@ -79,4 +94,6 @@
         </bean>
 
         <bean id="userDAO" class="com.flxn.dao.impl.UserDaoImpl" scope="prototype"></bean>
+
+        <bean id="projectDAO" class="com.flxn.dao.impl.ProjectDaoImpl" scope="prototype"></bean>
 </beans>

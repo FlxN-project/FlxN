@@ -1,4 +1,4 @@
-package com.flxn.message.impl;
+package com.flxn.message.impl.userservice;
 
 import com.flxn.address.Address;
 import com.flxn.dao.model.User;
