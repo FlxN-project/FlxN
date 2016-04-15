@@ -5,7 +5,10 @@ import com.flxn.service.impl.UserServiceImpl;
 import com.flxn.service.logic.DeferredResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,7 +25,9 @@ public class UserResource {
 	private UserServiceImpl userService;
 
 	@RequestMapping(value = "/register",method = RequestMethod.POST)
-	public ResponseEntity<?> create(@RequestBody User user){
+	public ResponseEntity<?> create(@Validated @RequestBody User user,BindingResult bindingResults){
+		if (bindingResults.hasErrors())
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		DeferredResponse<User> deferredResponse = new DeferredResponse<>();
 		userService.register(user,deferredResponse);
 		deferredResponse.defer();
