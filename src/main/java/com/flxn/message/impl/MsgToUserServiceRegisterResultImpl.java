@@ -10,18 +10,15 @@ import com.flxn.service.logic.DeferredResponse;
  */
 public class MsgToUserServiceRegisterResultImpl extends MsgToUserService {
 
-	private Exception exception;
 	private DeferredResponse deferredResponse;
 
-	public MsgToUserServiceRegisterResultImpl(Address to, Address from, Exception exception, DeferredResponse deferredResponse) {
+	public MsgToUserServiceRegisterResultImpl(Address to, Address from, DeferredResponse deferredResponse) {
 		super(to, from);
-		this.exception = exception;
 		this.deferredResponse = deferredResponse;
 	}
 
 	@Override
 	public void exec(UserServiceImpl userService) {
-//		if(exception!=null)
-		deferredResponse.done(exception);
+		deferredResponse.done();
 	}
 }

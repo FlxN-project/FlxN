@@ -29,9 +29,11 @@ public class MsgToDataBaseRegisterUserImpl extends MsgToDataBase {
 		Msg back;
 		try {
 			userDao.create(user);
-			back = new MsgToUserServiceRegisterResultImpl(getFrom(),getTo(),null,deferredResponse);
+			deferredResponse.setData(null,null);
+			back = new MsgToUserServiceRegisterResultImpl(getFrom(),getTo(),deferredResponse);
 		}catch (UnsupportedOperationException e){
-			back = new MsgToUserServiceRegisterResultImpl(getFrom(),getTo(),e,deferredResponse);
+			deferredResponse.setData(null,e);
+			back = new MsgToUserServiceRegisterResultImpl(getFrom(),getTo(),deferredResponse);
 		}
 		dataBaseService.getMessageSystem().sendMessage(back);
 	}

@@ -23,7 +23,7 @@ public class UserResource {
 
 	@RequestMapping(value = "/register",method = RequestMethod.POST)
 	public ResponseEntity<?> create(@RequestBody User user){
-		DeferredResponse deferredResponse = new DeferredResponse();
+		DeferredResponse<User> deferredResponse = new DeferredResponse<>();
 		userService.register(user,deferredResponse);
 		deferredResponse.defer();
 		if(deferredResponse.getException()!=null)
