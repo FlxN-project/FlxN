@@ -58,7 +58,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void update(User object) {
         if(exist(object.getId())){
-            jdbcTemplate.update(UPATE_USER_BY_ID,new Object[]{object.getEmail(),object.getPassword()});
+            jdbcTemplate.update(UPATE_USER_BY_ID,new Object[]{object.getEmail(),object.getPassword(),object.getId()});
         }
         else
             throw new UnsupportedOperationException();
