@@ -1,15 +1,22 @@
 package com.flxn.dao.model;
 
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 /**
  * Created by X8 on 28.03.2016.
  */
 
 public class Project {
-    private int id;
+    @NotNull
+    @Size (min=0,max=30)
     private String name;
+    @Size (min=0,max=400)
     private String description;
     private User user;
+    private int id;
+
 
     public Project(){}
 

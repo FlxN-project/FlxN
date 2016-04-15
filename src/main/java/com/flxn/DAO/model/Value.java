@@ -1,13 +1,20 @@
 package com.flxn.dao.model;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 /**
  * Created by X8 on 28.03.2016.
  */
 public class Value {
     private int id;
-    private String weight;
     private Atribute atribute;
     private Objject objject;
+    @NotNull
+    @Size(min=0,max=250)
+    private String weight;
+
+
 
     public Value(){}
 
