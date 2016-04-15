@@ -6,7 +6,9 @@ import com.flxn.dao.model.User;
 import com.flxn.message.api.Msg;
 import com.flxn.message.impl.MsgToDataBaseGetUserImpl;
 import com.flxn.message.impl.MsgToDataBaseRegisterUserImpl;
+import com.flxn.message.impl.MsgToDataBaseUpdateUserImpl;
 import com.flxn.message.system.MessageSystem;
+import com.flxn.service.api.DataBaseService;
 import com.flxn.service.api.UserService;
 import com.flxn.service.logic.DeferredResponse;
 import com.flxn.service.logic.Runner;
@@ -62,6 +64,18 @@ public class UserServiceImpl implements UserService,Runnable{
 	}
 
 	@Override
+	public void updateUser(User user, DeferredResponse<User> deferredResponse) {
+		Msg updateUser = new MsgToDataBaseUpdateUserImpl(
+			messageSystem.getService(DataBaseServiceImpl.class),
+			getAddress(),
+			user,
+			userDao,
+			deferredResponse
+		);
+		messageSystem.sendMessage(updateUser);
+	}
+
+	@Override
 	public void register(User user, DeferredResponse deferredResponse) {
 		Msg registerUser = new MsgToDataBaseRegisterUserImpl(
 			messageSystem.getService(DataBaseServiceImpl.class),
@@ -71,7 +85,6 @@ public class UserServiceImpl implements UserService,Runnable{
 			deferredResponse);
 		messageSystem.sendMessage(registerUser);
 	}
-
 
 	@Override
 	public void run() {

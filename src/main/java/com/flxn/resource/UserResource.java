@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Created by Gadzzzz on 14.04.2016.
  */
@@ -25,7 +27,8 @@ public class UserResource {
 	private UserServiceImpl userService;
 
 	@RequestMapping(value = "/register",method = RequestMethod.POST)
-	public ResponseEntity<?> create(@Validated @RequestBody User user,BindingResult bindingResults){
+	public ResponseEntity<?> create(@Validated @RequestBody User user,
+											  BindingResult bindingResults){
 		if (bindingResults.hasErrors())
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		DeferredResponse<User> deferredResponse = new DeferredResponse<>();
@@ -34,5 +37,21 @@ public class UserResource {
 		if(deferredResponse.getException()!=null)
 			return new ResponseEntity(HttpStatus.CONFLICT);
 		return new ResponseEntity(HttpStatus.CREATED);
+	}
+
+	@RequestMapping(value = "/updateprofile", method = RequestMethod.PUT)
+	public ResponseEntity<?> update(@Validated @RequestBody User user,
+											  BindingResult bindingResults,
+											  HttpServletRequest request){
+		if (bindingResults.hasErrors())
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		DeferredResponse<User> deferredResponse = new DeferredResponse<>();
+		User auth = (User) request.getAttribute("auth");
+		user.setId(auth.getId());
+		userService.updateUser(user,deferredResponse);
+		deferredResponse.defer();
+		if(deferredResponse.getException()!=null)
+			return new ResponseEntity(HttpStatus.CONFLICT);
+		return new ResponseEntity(HttpStatus.OK);
 	}
 }

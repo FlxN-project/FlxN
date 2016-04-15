@@ -12,5 +12,6 @@ public interface UserService extends Service{
 	void auth(String email,User user);
 	boolean existUser(String email);
 	User getAuth(String email);
-	void register(User user, DeferredResponse deferredResponse);
+	void register(User user, DeferredResponse<User> deferredResponse);
+	void updateUser(User user, DeferredResponse<User> deferredResponse);
 }
