@@ -8,6 +8,7 @@ import com.flxn.message.impl.MsgToDataBaseGetUserImpl;
 import com.flxn.message.impl.MsgToDataBaseRegisterUserImpl;
 import com.flxn.message.system.MessageSystem;
 import com.flxn.service.api.UserService;
+import com.flxn.service.logic.DeferredResponse;
 import com.flxn.service.logic.Runner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -61,12 +62,13 @@ public class UserServiceImpl implements UserService,Runnable{
 	}
 
 	@Override
-	public void register(User user) {
+	public void register(User user, DeferredResponse deferredResponse) {
 		Msg registerUser = new MsgToDataBaseRegisterUserImpl(
 			messageSystem.getService(DataBaseServiceImpl.class),
 			getAddress(),
 			user,
-			userDao);
+			userDao,
+			deferredResponse);
 		messageSystem.sendMessage(registerUser);
 	}
 

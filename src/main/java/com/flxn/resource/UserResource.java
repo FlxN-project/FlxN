@@ -1,10 +1,9 @@
 package com.flxn.resource;
 
-import com.flxn.dao.api.UserDao;
 import com.flxn.dao.model.User;
 import com.flxn.service.impl.UserServiceImpl;
+import com.flxn.service.logic.DeferredResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +23,11 @@ public class UserResource {
 
 	@RequestMapping(value = "/register",method = RequestMethod.POST)
 	public ResponseEntity<?> create(@RequestBody User user){
-		userService.register(user);
+		DeferredResponse deferredResponse = new DeferredResponse();
+		userService.register(user,deferredResponse);
+		deferredResponse.defer();
+		if(deferredResponse.getException()!=null)
+			return new ResponseEntity(HttpStatus.CONFLICT);
 		return new ResponseEntity(HttpStatus.CREATED);
 	}
 }
