@@ -62,10 +62,13 @@ public class ValueDaoImpl implements ValueDao {
 
     @Override
     public void update(Value object) {
-        if(exist(object)){
+        if(!exist(object)){
             jdbcTemplate.update(UPDATE_VALUE_BY_ID,new Object[]{object.getWeight(),object.getAtribute().getId(),object.getParent().getId()});
-        }else{
-            throw new UnsupportedOperationException();}
+        }else
+            if(exist(object.getId())) {
+                jdbcTemplate.update(UPDATE_VALUE_BY_ID,new Object[]{object.getWeight(),object.getAtribute().getId(),object.getParent().getId()}); }
+                     else{ throw new UnsupportedOperationException();}
+
     }
 
     @Override

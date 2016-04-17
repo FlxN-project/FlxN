@@ -55,7 +55,7 @@ public class ClazzDaoImpl implements ClazzDao{
 
     @Override
     public void update(Clazz object) {
-        if(exist(object)) {
+        if(!exist(object)) {
             jdbcTemplate.update(UPATE_CLAZZ_BY_ID,new Object[]{object.getName(),object.getDescription(),object.getId()});
         }else{
             throw new UnsupportedOperationException();}

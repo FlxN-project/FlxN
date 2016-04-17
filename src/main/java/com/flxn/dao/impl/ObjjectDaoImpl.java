@@ -57,11 +57,15 @@ public class ObjjectDaoImpl implements ObjjectDao {
 
     @Override
     public void update(Objject object) {
-        if(exist(object)){
+        if(!exist(object)){
             jdbcTemplate.update(UPDATE_OBJJECT_BY_ID,new Object[]{object.getLink(),object.getId()});
-        } else {
-            throw new UnsupportedOperationException();
-        }
+        } else
+            if(exist(object.getId())){
+                jdbcTemplate.update(UPDATE_OBJJECT_BY_ID,new Object[]{object.getLink(),object.getId()});
+            }else
+                    {
+                    throw new UnsupportedOperationException();}
+
     }
 
     @Override

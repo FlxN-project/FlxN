@@ -56,11 +56,14 @@ public class AtributeDaoImpl implements AtributeDao {
 
     @Override
     public void update(Atribute object) {
-        if(exist(object)){
+        if(!exist(object)){
             jdbcTemplate.update(UPDATE_ATRIBUTE_BY_ID,new Object[]{object.getName(),object.getId()});
-        }else{
-            throw new UnsupportedOperationException();
-        }
+        }else
+            if(exist(object.getId())){
+                jdbcTemplate.update(UPDATE_ATRIBUTE_BY_ID,new Object[]{object.getName(),object.getId()});}
+                else
+                    {throw new UnsupportedOperationException();}
+
     }
 
     @Override

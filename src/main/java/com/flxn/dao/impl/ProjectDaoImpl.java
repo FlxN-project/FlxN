@@ -54,10 +54,13 @@ public class ProjectDaoImpl implements ProjectDao {
 
     @Override
     public void update(Project object) {
-        if(exist(object)){
+        if(!exist(object)){
             jdbcTemplate.update(UPDATE_PROJECT_BY_ID,new Object[]{object.getName(),object.getDescription(),object.getId()});
-        }else{
-            throw new UnsupportedOperationException();}
+        }else
+           if(exist(object.getId())){
+            jdbcTemplate.update(UPDATE_PROJECT_BY_ID,new Object[]{object.getName(),object.getDescription(),object.getId()});}
+                 else {
+                        throw new UnsupportedOperationException();}
     }
 
     @Override
