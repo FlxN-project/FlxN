@@ -33,14 +33,14 @@ public class ClazzDaoImpl implements ClazzDao{
 
     @Override
     public boolean exist(Clazz clazz) {
-     boolean result=jdbcTemplate.queryForObject(COUNT_ID_BY_NAME_AND_PROJECT_ID,new Object[]{clazz.getName(),clazz.getProject().getId()},Integer.class)!=0;
+     boolean result=jdbcTemplate.queryForObject(COUNT_ID_BY_NAME_AND_PROJECT_ID,new Object[]{clazz.getName(),clazz.getParent().getId()},Integer.class)!=0;
      return result;
     }
 
     @Override
     public void create(Clazz object) {
         if(!exist(object)) {
-            jdbcTemplate.update(INSERT_CLAZZ,new Object[]{object.getName(),object.getProject().getId(),object.getDescription()});
+            jdbcTemplate.update(INSERT_CLAZZ,new Object[]{object.getName(),object.getParent().getId(),object.getDescription()});
         }else{
             throw new UnsupportedOperationException();}
     }

@@ -26,7 +26,7 @@ public class ObjjectDaoImpl implements ObjjectDao {
 
     @Override
     public boolean exist(Objject objject) {
-        boolean result=jdbcTemplate.queryForObject(COUNT_ID_BY_NAME_AND_CLAZZ_ID,new Object[]{objject.getLink(),objject.getClazz().getId()},Integer.class)!=0;
+        boolean result=jdbcTemplate.queryForObject(COUNT_ID_BY_NAME_AND_CLAZZ_ID,new Object[]{objject.getLink(),objject.getParent().getId()},Integer.class)!=0;
         return result;
     }
 
@@ -39,7 +39,7 @@ public class ObjjectDaoImpl implements ObjjectDao {
     @Override
     public void create(Objject object) {
         if(!exist(object)){
-           jdbcTemplate.update(INSERT_OBJJECT,new Object[]{object.getLink(),object.getClazz().getId()});
+           jdbcTemplate.update(INSERT_OBJJECT,new Object[]{object.getLink(),object.getParent().getId()});
         }
         else {
             throw  new UnsupportedOperationException();
