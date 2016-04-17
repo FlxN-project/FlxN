@@ -26,7 +26,7 @@ public class AtributeDaoImpl implements AtributeDao {
 
     @Override
     public boolean exist(Atribute atribute) {
-        boolean result=jdbcTemplate.queryForObject(COUNT_ID_BY_NAME_AND_CLAZZ_ID,new Object[]{atribute.getName(),atribute.getClazz().getId()},Integer.class)!=0;
+        boolean result=jdbcTemplate.queryForObject(COUNT_ID_BY_NAME_AND_CLAZZ_ID,new Object[]{atribute.getName(),atribute.getParent().getId()},Integer.class)!=0;
         return result;
     }
 
@@ -39,7 +39,7 @@ public class AtributeDaoImpl implements AtributeDao {
     @Override
     public void create(Atribute object) {
         if(!exist(object)){
-            jdbcTemplate.update(INSERT_ATRIBUTE,new Object[]{object.getClazz().getId(),object.getName()});
+            jdbcTemplate.update(INSERT_ATRIBUTE,new Object[]{object.getParent().getId(),object.getName()});
         }else{
             throw new UnsupportedOperationException();
         }

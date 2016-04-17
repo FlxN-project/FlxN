@@ -1,4 +1,4 @@
-package com.flxn.dao.model;
+package com.flxn.dao.modelapi;
 
 /**
  * Created by X8 on 17.04.2016.

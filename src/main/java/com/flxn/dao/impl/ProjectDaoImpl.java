@@ -27,7 +27,7 @@ public class ProjectDaoImpl implements ProjectDao {
     @Override
     public void create(Project object) {
         if(!exist(object)){
-            jdbcTemplate.update(INSERT_PROJECT,new Object[]{object.getName(),object.getUser().getId(),object.getDescription()});
+            jdbcTemplate.update(INSERT_PROJECT,new Object[]{object.getName(),object.getParent().getId(),object.getDescription()});
         }else{
             throw new UnsupportedOperationException();}
     }
@@ -42,7 +42,7 @@ public class ProjectDaoImpl implements ProjectDao {
 
     @Override
     public boolean exist(Project project) {
-        boolean result=jdbcTemplate.queryForObject(SELECT_COUNT_ID_BY_TITLE_AND_USER,new Object[]{project.getName(),project.getUser().getId()},Integer.class)!=0;
+        boolean result=jdbcTemplate.queryForObject(SELECT_COUNT_ID_BY_TITLE_AND_USER,new Object[]{project.getName(),project.getParent().getId()},Integer.class)!=0;
         return result;
     }
 

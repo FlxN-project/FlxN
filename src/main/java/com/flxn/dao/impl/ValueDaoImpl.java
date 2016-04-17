@@ -28,7 +28,7 @@ public class ValueDaoImpl implements ValueDao {
 
     @Override
     public boolean exist(Value value) {
-        boolean result=jdbcTemplate.queryForObject(COUNT_ID_BY_ATRIBUTE_ID_AND_OBJJECT_ID,new Object[]{value.getAtribute().getId(),value.getObjject().getId()},Integer.class)!=0;
+        boolean result=jdbcTemplate.queryForObject(COUNT_ID_BY_ATRIBUTE_ID_AND_OBJJECT_ID,new Object[]{value.getAtribute().getId(),value.getParent().getId()},Integer.class)!=0;
         return result;
     }
 
@@ -47,7 +47,7 @@ public class ValueDaoImpl implements ValueDao {
     @Override
     public void create(Value object) {
         if(!exist(object)){
-            jdbcTemplate.update(INSERT_VALUE,new Object[]{object.getAtribute().getId(),object.getObjject().getId(),object.getWeight()});
+            jdbcTemplate.update(INSERT_VALUE,new Object[]{object.getAtribute().getId(),object.getParent().getId(),object.getWeight()});
         } else{
             throw new UnsupportedOperationException();}
     }
@@ -63,7 +63,7 @@ public class ValueDaoImpl implements ValueDao {
     @Override
     public void update(Value object) {
         if(exist(object)){
-            jdbcTemplate.update(UPDATE_VALUE_BY_ID,new Object[]{object.getWeight(),object.getAtribute().getId(),object.getObjject().getId()});
+            jdbcTemplate.update(UPDATE_VALUE_BY_ID,new Object[]{object.getWeight(),object.getAtribute().getId(),object.getParent().getId()});
         }else{
             throw new UnsupportedOperationException();}
     }
