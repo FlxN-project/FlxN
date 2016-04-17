@@ -51,12 +51,12 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void delete(User object) {
+    public void delete(User object, int id) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void update(User object) {
+    public void update(User object,int id) {
         if(!exist(object.getId())){
             jdbcTemplate.update(UPATE_USER_BY_ID,new Object[]{object.getEmail(),object.getPassword(),object.getId()});
         }
@@ -67,7 +67,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User getById(int id) {
+    public User getById(int id, int nullid) {
         if (exist(id)){
             User user=jdbcTemplate.queryForObject(SELECT_BY_ID,new Object[]{id},new UserRowMapper());
             return user;

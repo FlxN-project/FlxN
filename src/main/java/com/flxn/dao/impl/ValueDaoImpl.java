@@ -1,5 +1,6 @@
 package com.flxn.dao.impl;
 
+import com.flxn.dao.api.OwnerSecurityInterface;
 import com.flxn.dao.api.ValueDao;
 import com.flxn.dao.model.Atribute;
 import com.flxn.dao.model.Objject;
@@ -14,7 +15,7 @@ import java.util.List;
 /**
  * Created by X8 on 15.04.2016.
  */
-public class ValueDaoImpl implements ValueDao {
+public class ValueDaoImpl implements ValueDao,OwnerSecurityInterface {
     @Autowired
     @Qualifier("jdbcTemplate")
     private JdbcTemplate jdbcTemplate;
@@ -53,29 +54,34 @@ public class ValueDaoImpl implements ValueDao {
     }
 
     @Override
-    public void delete(Value object) {
-        if(exist(object)){
+    public void delete(Value object, int id) {
+        if(exist(object) && existOwner(object.getId(),id)){
             jdbcTemplate.update(DELETE_VALUE_BY_ID,new Object[]{object.getId()});
         }else{
             throw new UnsupportedOperationException();}
     }
 
     @Override
-    public void update(Value object) {
-        if(!exist(object)){
+    public void update(Value object, int id) {
+        if(!exist(object) && existOwner(object.getId(),id)){
             jdbcTemplate.update(UPDATE_VALUE_BY_ID,new Object[]{object.getWeight(),object.getAtribute().getId(),object.getParent().getId()});
         }else
-            if(exist(object.getId())) {
+            if(exist(object.getId()) && existOwner(object.getId(),id)) {
                 jdbcTemplate.update(UPDATE_VALUE_BY_ID,new Object[]{object.getWeight(),object.getAtribute().getId(),object.getParent().getId()}); }
                      else{ throw new UnsupportedOperationException();}
 
     }
 
     @Override
-    public Value getById(int id) {
-        if(exist(id)){
+    public Value getById(int id, int userid) {
+        if(exist(id) && existOwner(id,userid)){
             Value value=jdbcTemplate.queryForObject(SELECT_VALUE_BY_ID,new Object[]{id},new ValueRowMapper());
             return value;
         } else return null;
     }
-}
+
+    @Override
+    public boolean existOwner(int idobject, int id) {
+        boolean result=jdbcTemplate.queryForObject(VALUE_OWNER_BY_ID,new Object[]{idobject},Integer.class)==id;
+        return result;}
+    }

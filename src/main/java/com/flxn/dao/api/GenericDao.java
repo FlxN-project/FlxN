@@ -5,7 +5,7 @@ package com.flxn.dao.api;
  */
 public interface GenericDao<T>  {
      void create(T object); // запись по обьекту
-     void delete(T object);
-     void update(T object);
-     T getById(int id);
+     void delete(T object, int id);
+     void update(T object, int id);
+     T getById(int id, int userid);
 }

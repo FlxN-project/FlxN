@@ -1,5 +1,6 @@
 package com.flxn.dao.impl;
 
+import com.flxn.dao.api.OwnerSecurityInterface;
 import com.flxn.dao.api.ProjectDao;
 import com.flxn.dao.model.Project;
 import com.flxn.dao.model.User;
@@ -13,7 +14,7 @@ import java.util.List;
 /**
  * Created by X8 on 15.04.2016.
  */
-public class ProjectDaoImpl implements ProjectDao {
+public class ProjectDaoImpl implements ProjectDao,OwnerSecurityInterface {
     @Autowired
     @Qualifier("jdbcTemplate")
     private JdbcTemplate jdbcTemplate;
@@ -33,8 +34,8 @@ public class ProjectDaoImpl implements ProjectDao {
     }
 
     @Override
-    public void delete(Project object) {
-        if(exist(object)){
+    public void delete(Project object,int id) {
+        if(exist(object) && existOwner(object.getId(),id)){
             jdbcTemplate.update(DELETE_PROJECT_BY_ID,new Object[]{object.getId()});
         }else{
             throw new UnsupportedOperationException();}
@@ -53,23 +54,29 @@ public class ProjectDaoImpl implements ProjectDao {
     }
 
     @Override
-    public void update(Project object) {
-        if(!exist(object)){
+    public void update(Project object, int id) {
+        if(!exist(object)&&existOwner(object.getId(),id)){
             jdbcTemplate.update(UPDATE_PROJECT_BY_ID,new Object[]{object.getName(),object.getDescription(),object.getId()});
         }else
-           if(exist(object.getId())){
+           if(exist(object.getId()) && existOwner(object.getId(),id)){
             jdbcTemplate.update(UPDATE_PROJECT_BY_ID,new Object[]{object.getName(),object.getDescription(),object.getId()});}
                  else {
                         throw new UnsupportedOperationException();}
     }
 
     @Override
-    public Project getById(int id) {
-        if(exist(id)){
+    public Project getById(int id, int userid) {
+        if(exist(id)&&existOwner(id,userid)){
         Project project=jdbcTemplate.queryForObject(SELECT_PROJECT_BY_ID,new Object[]{id},new ProjectRowMapper());
         return project;
         }
         else
         return null;
+    }
+
+    @Override
+    public boolean existOwner(int idobject, int id) {
+    boolean result=jdbcTemplate.queryForObject(PROJECT_OWNER_BY_ID,new Object[]{idobject},Integer.class)==id;
+    return result;
     }
 }

@@ -1,6 +1,7 @@
 package com.flxn.dao.impl;
 
 import com.flxn.dao.api.AtributeDao;
+import com.flxn.dao.api.OwnerSecurityInterface;
 import com.flxn.dao.model.Atribute;
 import com.flxn.dao.model.Clazz;
 import com.flxn.dao.rowmappers.AtributeRowMapper;
@@ -13,7 +14,7 @@ import java.util.List;
 /**
  * Created by X8 on 15.04.2016.
  */
-public class AtributeDaoImpl implements AtributeDao {
+public class AtributeDaoImpl implements AtributeDao,OwnerSecurityInterface {
     @Autowired
     @Qualifier("jdbcTemplate")
     private JdbcTemplate jdbcTemplate;
@@ -46,8 +47,8 @@ public class AtributeDaoImpl implements AtributeDao {
     }
 
     @Override
-    public void delete(Atribute object) {
-        if(exist(object)){
+    public void delete(Atribute object,int id) {
+        if(exist(object) && existOwner(object.getId(),id)){
             jdbcTemplate.update(DELETE_ATRIBUTE_BY_ID,new Object[]{object.getId()});
         }else{
             throw new UnsupportedOperationException();
@@ -55,11 +56,11 @@ public class AtributeDaoImpl implements AtributeDao {
     }
 
     @Override
-    public void update(Atribute object) {
-        if(!exist(object)){
+    public void update(Atribute object, int id) {
+        if(!exist(object) && existOwner(object.getId(),id)){
             jdbcTemplate.update(UPDATE_ATRIBUTE_BY_ID,new Object[]{object.getName(),object.getId()});
         }else
-            if(exist(object.getId())){
+            if(exist(object.getId()) && existOwner(object.getId(),id)){
                 jdbcTemplate.update(UPDATE_ATRIBUTE_BY_ID,new Object[]{object.getName(),object.getId()});}
                 else
                     {throw new UnsupportedOperationException();}
@@ -67,12 +68,18 @@ public class AtributeDaoImpl implements AtributeDao {
     }
 
     @Override
-    public Atribute getById(int id) {
-       if(exist(id)){
+    public Atribute getById(int id, int userid) {
+       if(exist(id) && existOwner(id,userid)){
            Atribute atribute=jdbcTemplate.queryForObject(SELECT_ATRIBUTE_BY_ID,new Object[]{id},new AtributeRowMapper());
            return atribute;
        }else{
           return null;
        }
+    }
+
+    @Override
+    public boolean existOwner(int idobject, int id) {
+        boolean result=jdbcTemplate.queryForObject(ATTRIBUTE_OWNER_BY_ID,new Object[]{idobject},Integer.class)==id;
+        return result;
     }
 }
