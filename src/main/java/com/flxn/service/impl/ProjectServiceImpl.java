@@ -4,12 +4,9 @@ import com.flxn.address.Address;
 import com.flxn.dao.api.ProjectDao;
 import com.flxn.dao.model.Project;
 import com.flxn.dao.model.User;
-import com.flxn.message.impl.database.MsgToDataBaseCreateProjectImpl;
-import com.flxn.message.impl.database.MsgToDataBaseGetProjectImpl;
-import com.flxn.message.impl.database.MsgToDataBaseUpdateProjectImpl;
+import com.flxn.message.impl.database.*;
 import com.flxn.message.system.MessageSystem;
 import com.flxn.service.api.BasicService;
-import com.flxn.service.api.DataBaseService;
 import com.flxn.service.logic.DeferredResponse;
 import com.flxn.service.logic.Runner;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +75,14 @@ public class ProjectServiceImpl implements BasicService<Project>,Runnable{
 
 	@Override
 	public void get(User user, DeferredResponse deferredResponse) {
-
+		MsgToDataBaseGetAllProjectsImpl getAllProjects = new MsgToDataBaseGetAllProjectsImpl(
+			messageSystem.getService(DataBaseServiceImpl.class),
+			getAddress(),
+			deferredResponse,
+			user,
+			projectDao
+		);
+		messageSystem.sendMessage(getAllProjects);
 	}
 
 	@Override
@@ -95,6 +99,13 @@ public class ProjectServiceImpl implements BasicService<Project>,Runnable{
 
 	@Override
 	public void delete(Project project, DeferredResponse deferredResponse) {
-
+		MsgToDataBaseDeleteProjectImpl deleteProject = new MsgToDataBaseDeleteProjectImpl(
+			messageSystem.getService(DataBaseServiceImpl.class),
+			getAddress(),
+			deferredResponse,
+			project,
+			projectDao
+		);
+		messageSystem.sendMessage(deleteProject);
 	}
 }

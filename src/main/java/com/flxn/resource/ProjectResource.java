@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Created by Gadzzzz on 15.04.2016.
@@ -55,5 +56,16 @@ public class ProjectResource {
 	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> get(@PathVariable("id") int id){
 		return getExecutor().get(id);
+	}
+
+	@RequestMapping(value = "/get", method = RequestMethod.GET)
+	public ResponseEntity<List<?>> getAll(HttpServletRequest request){
+		User auth = (User) request.getAttribute("auth");
+		return getExecutor().getAll(auth);
+	}
+
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> delete(@PathVariable("id") int id){
+		return getExecutor().delete(id, new Project());
 	}
 }
