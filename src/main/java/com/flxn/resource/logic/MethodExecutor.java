@@ -7,8 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * Created by Gadzzzz on 17.04.2016.
  */
@@ -41,5 +39,14 @@ public class MethodExecutor<T extends ModelInterface> {
 		if(deferredResponse.getException()!=null)
 			return new ResponseEntity(HttpStatus.CONFLICT);
 		return new ResponseEntity(HttpStatus.OK);
+	}
+
+	public ResponseEntity get(int id){
+		DeferredResponse<T> deferredResponse = new DeferredResponse<>();
+		basicService.get(id,deferredResponse);
+		deferredResponse.defer();
+		if(deferredResponse.getException()!=null)
+			return new ResponseEntity(HttpStatus.CONFLICT);
+		return new ResponseEntity(deferredResponse.getData(),HttpStatus.OK);
 	}
 }

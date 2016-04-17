@@ -51,4 +51,9 @@ public class ProjectResource {
 		project.setParent(auth);
 		return getExecutor().update(id,project,bindingResults);
 	}
+
+	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> get(@PathVariable("id") int id){
+		return getExecutor().get(id);
+	}
 }

@@ -5,6 +5,7 @@ import com.flxn.dao.api.ProjectDao;
 import com.flxn.dao.model.Project;
 import com.flxn.dao.model.User;
 import com.flxn.message.impl.database.MsgToDataBaseCreateProjectImpl;
+import com.flxn.message.impl.database.MsgToDataBaseGetProjectImpl;
 import com.flxn.message.impl.database.MsgToDataBaseUpdateProjectImpl;
 import com.flxn.message.system.MessageSystem;
 import com.flxn.service.api.BasicService;
@@ -64,13 +65,20 @@ public class ProjectServiceImpl implements BasicService<Project>,Runnable{
 	}
 
 	@Override
-	public Project get(int id) {
-		return null;
+	public void get(int id, DeferredResponse deferredResponse) {
+		MsgToDataBaseGetProjectImpl getProject = new MsgToDataBaseGetProjectImpl(
+			messageSystem.getService(DataBaseServiceImpl.class),
+			getAddress(),
+			deferredResponse,
+			id,
+			projectDao
+		);
+		messageSystem.sendMessage(getProject);
 	}
 
 	@Override
-	public List<Project> get(User user) {
-		return null;
+	public void get(User user, DeferredResponse deferredResponse) {
+
 	}
 
 	@Override
@@ -86,7 +94,7 @@ public class ProjectServiceImpl implements BasicService<Project>,Runnable{
 	}
 
 	@Override
-	public void delete(Project project) {
+	public void delete(Project project, DeferredResponse deferredResponse) {
 
 	}
 }
