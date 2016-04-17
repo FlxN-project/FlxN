@@ -1,12 +1,14 @@
 package com.flxn.dao.model;
 
+import com.flxn.dao.modelapi.ParentInterface;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  * Created by X8 on 28.03.2016.
  */
-public class Clazz implements  ParentInterface<Project> {
+public class Clazz implements ParentInterface<Project> {
 
     @NotNull
     @Size(min=0,max =40)

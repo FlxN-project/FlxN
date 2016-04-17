@@ -1,5 +1,7 @@
 package com.flxn.dao.model;
 
+import com.flxn.dao.modelapi.ModelInterface;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -7,7 +9,7 @@ import javax.validation.constraints.Size;
 /**
  * Created by X8 on 28.03.2016.
  */
-public class User implements ModelInterface{
+public class User implements ModelInterface {
     private int id;
     @NotNull
     @Size (min=0,max=100)

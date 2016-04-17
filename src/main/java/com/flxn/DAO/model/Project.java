@@ -1,6 +1,8 @@
 package com.flxn.dao.model;
 
 
+import com.flxn.dao.modelapi.ParentInterface;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 

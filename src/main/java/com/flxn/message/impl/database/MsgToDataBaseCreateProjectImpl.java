@@ -5,6 +5,7 @@ import com.flxn.dao.api.ProjectDao;
 import com.flxn.dao.model.Project;
 import com.flxn.message.api.Msg;
 import com.flxn.message.api.MsgToDataBase;
+import com.flxn.message.api.MsgToDataBaseWithDefer;
 import com.flxn.message.impl.projectservice.MsgToProjectServiceCreateResultImpl;
 import com.flxn.service.impl.DataBaseServiceImpl;
 import com.flxn.service.logic.DeferredResponse;
@@ -12,17 +13,15 @@ import com.flxn.service.logic.DeferredResponse;
 /**
  * Created by Gadzzzz on 15.04.2016.
  */
-public class MsgToDataBaseCreateProjectImpl extends MsgToDataBase {
+public class MsgToDataBaseCreateProjectImpl extends MsgToDataBaseWithDefer {
 
 	private Project project;
-	private DeferredResponse deferredResponse;
 	private ProjectDao projectDao;
 
 	public MsgToDataBaseCreateProjectImpl(Address to, Address from, Project project, ProjectDao projectDao, DeferredResponse deferredResponse) {
-		super(to, from);
+		super(to, from, deferredResponse);
 		this.project = project;
 		this.projectDao = projectDao;
-		this.deferredResponse = deferredResponse;
 	}
 
 	@Override

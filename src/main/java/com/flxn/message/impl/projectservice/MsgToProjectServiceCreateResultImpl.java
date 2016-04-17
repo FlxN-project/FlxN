@@ -10,11 +10,8 @@ import com.flxn.service.logic.DeferredResponse;
  */
 public class MsgToProjectServiceCreateResultImpl extends MsgToProjectService {
 
-	private DeferredResponse deferredResponse;
-
 	public MsgToProjectServiceCreateResultImpl(Address to, Address from, DeferredResponse deferredResponse) {
-		super(to, from);
-		this.deferredResponse = deferredResponse;
+		super(to, from, deferredResponse);
 	}
 
 	@Override
