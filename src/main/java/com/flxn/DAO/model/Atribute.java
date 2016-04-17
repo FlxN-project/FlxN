@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 /**
  * Created by X8 on 28.03.2016.
  */
-public class Atribute {
+public class Atribute implements ModelInterface {
 
     @NotNull
     @Size(min=0,max =40)

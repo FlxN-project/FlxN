@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 /**
  * Created by X8 on 28.03.2016.
  */
-public class Objject {
+public class Objject implements ModelInterface{
 
     @NotNull
     @Size(min=0,max =40)

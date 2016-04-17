@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
  * Created by X8 on 28.03.2016.
  */
 
-public class Project {
+public class Project implements ModelInterface {
     @NotNull
     @Size (min=0,max=30)
     private String name;

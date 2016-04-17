@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 /**
  * Created by X8 on 28.03.2016.
  */
-public class Value {
+public class Value implements  ModelInterface{
     private int id;
     private Atribute atribute;
     private Objject objject;
