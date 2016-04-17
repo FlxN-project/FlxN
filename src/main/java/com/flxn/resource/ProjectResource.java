@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -42,5 +39,15 @@ public class ProjectResource {
 		User auth = (User) request.getAttribute("auth");
 		project.setParent(auth);
 		return getExecutor().create(project,bindingResults);
+	}
+
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<?> update(@Validated @RequestBody Project project,
+											  @PathVariable("id") int id,
+											  BindingResult bindingResults,
+											  HttpServletRequest request){
+		User auth = (User) request.getAttribute("auth");
+		project.setParent(auth);
+		return getExecutor().update(id,project,bindingResults);
 	}
 }

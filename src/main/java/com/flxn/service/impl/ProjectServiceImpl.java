@@ -5,8 +5,10 @@ import com.flxn.dao.api.ProjectDao;
 import com.flxn.dao.model.Project;
 import com.flxn.dao.model.User;
 import com.flxn.message.impl.database.MsgToDataBaseCreateProjectImpl;
+import com.flxn.message.impl.database.MsgToDataBaseUpdateProjectImpl;
 import com.flxn.message.system.MessageSystem;
 import com.flxn.service.api.BasicService;
+import com.flxn.service.api.DataBaseService;
 import com.flxn.service.logic.DeferredResponse;
 import com.flxn.service.logic.Runner;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,8 +74,15 @@ public class ProjectServiceImpl implements BasicService<Project>,Runnable{
 	}
 
 	@Override
-	public void update(Project project) {
-
+	public void update(Project project, DeferredResponse deferredResponse) {
+		MsgToDataBaseUpdateProjectImpl updateProject = new MsgToDataBaseUpdateProjectImpl(
+			messageSystem.getService(DataBaseServiceImpl.class),
+			getAddress(),
+			deferredResponse,
+			project,
+			projectDao
+		);
+		messageSystem.sendMessage(updateProject);
 	}
 
 	@Override

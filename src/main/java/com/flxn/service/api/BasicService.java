@@ -13,6 +13,6 @@ public interface BasicService<T> extends Service{
 	void create(T model, DeferredResponse deferredResponse);
 	Project get(int id);
 	List<T> get(User user);
-	void update(T model);
+	void update(T model, DeferredResponse deferredResponse);
 	void delete(T model);
 }

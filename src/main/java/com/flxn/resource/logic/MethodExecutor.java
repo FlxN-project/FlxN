@@ -20,8 +20,7 @@ public class MethodExecutor<T extends ModelInterface> {
 		this.basicService = basicService;
 	}
 
-	public ResponseEntity<?> create(T model,
-											  BindingResult bindingResults){
+	public ResponseEntity<?> create(T model, BindingResult bindingResults){
 		if(bindingResults.hasErrors())
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		DeferredResponse<T> deferredResponse = new DeferredResponse<>();
@@ -30,5 +29,17 @@ public class MethodExecutor<T extends ModelInterface> {
 		if(deferredResponse.getException()!=null)
 			return new ResponseEntity(HttpStatus.CONFLICT);
 		return new ResponseEntity(HttpStatus.CREATED);
+	}
+
+	public ResponseEntity<?> update(int id, T model, BindingResult bindingResults){
+		if (bindingResults.hasErrors())
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		DeferredResponse<T> deferredResponse = new DeferredResponse<>();
+		model.setId(id);
+		basicService.update(model,deferredResponse);
+		deferredResponse.defer();
+		if(deferredResponse.getException()!=null)
+			return new ResponseEntity(HttpStatus.CONFLICT);
+		return new ResponseEntity(HttpStatus.OK);
 	}
 }
