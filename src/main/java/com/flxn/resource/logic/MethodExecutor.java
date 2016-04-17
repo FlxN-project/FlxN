@@ -1,7 +1,6 @@
 package com.flxn.resource.logic;
 
-import com.flxn.dao.model.ModelInterface;
-import com.flxn.dao.model.User;
+import com.flxn.dao.modelapi.ModelInterface;
 import com.flxn.service.api.BasicService;
 import com.flxn.service.logic.DeferredResponse;
 import org.springframework.http.HttpStatus;
@@ -16,6 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 public class MethodExecutor<T extends ModelInterface> {
 
 	private BasicService<T> basicService;
+
+	public MethodExecutor(BasicService<T> basicService) {
+		this.basicService = basicService;
+	}
 
 	public ResponseEntity<?> create(T model,
 											  BindingResult bindingResults){

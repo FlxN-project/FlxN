@@ -31,7 +31,7 @@ public class ProjectResource {
 
 	private MethodExecutor<Project> getExecutor(){
 		if(executor==null)
-			executor = new MethodExecutor<>();
+			executor = new MethodExecutor<>(projectService);
 		return executor;
 	}
 
