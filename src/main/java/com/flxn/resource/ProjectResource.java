@@ -1,11 +1,11 @@
 package com.flxn.resource;
 
 import com.flxn.dao.model.Project;
-import com.flxn.dao.model.Value;
-import com.flxn.service.api.ProjectService;
-import com.flxn.service.logic.DeferredResponse;
+import com.flxn.dao.model.User;
+import com.flxn.resource.logic.MethodExecutor;
+import com.flxn.service.api.BasicService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by Gadzzzz on 15.04.2016.
@@ -22,18 +24,23 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProjectResource {
 
 	@Autowired
-	private ProjectService projectService;
+	@Qualifier("projectService")
+	private BasicService<Project> projectService;
+
+	private MethodExecutor<Project> executor;
+
+	private MethodExecutor<Project> getExecutor(){
+		if(executor==null)
+			executor = new MethodExecutor<>();
+		return executor;
+	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	public ResponseEntity<?> create(@Validated @RequestBody Project project,
-											  BindingResult bindingResults){
-		if(bindingResults.hasErrors())
-			return new ResponseEntity(HttpStatus.BAD_REQUEST);
-		DeferredResponse<Project> deferredResponse = new DeferredResponse<>();
-		projectService.create(project,deferredResponse);
-		deferredResponse.defer();
-		if(deferredResponse.getException()!=null)
-			return new ResponseEntity(HttpStatus.CONFLICT);
-		return new ResponseEntity(HttpStatus.CREATED);
+											  BindingResult bindingResults,
+											  HttpServletRequest request){
+		User auth = (User) request.getAttribute("auth");
+		project.setParent(auth);
+		return getExecutor().create(project,bindingResults);
 	}
 }

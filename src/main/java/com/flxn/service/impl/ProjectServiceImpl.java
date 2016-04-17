@@ -6,7 +6,7 @@ import com.flxn.dao.model.Project;
 import com.flxn.dao.model.User;
 import com.flxn.message.impl.database.MsgToDataBaseCreateProjectImpl;
 import com.flxn.message.system.MessageSystem;
-import com.flxn.service.api.ProjectService;
+import com.flxn.service.api.BasicService;
 import com.flxn.service.logic.DeferredResponse;
 import com.flxn.service.logic.Runner;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by Gadzzzz on 15.04.2016.
  */
-public class ProjectServiceImpl implements ProjectService,Runnable{
+public class ProjectServiceImpl implements BasicService<Project>,Runnable{
 
 	@Autowired
 	@Qualifier("projectDAO")

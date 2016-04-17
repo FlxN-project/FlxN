@@ -9,10 +9,10 @@ import java.util.List;
 /**
  * Created by Gadzzzz on 15.04.2016.
  */
-public interface ProjectService extends Service{
-	void create(Project project, DeferredResponse deferredResponse);
+public interface BasicService<T> extends Service{
+	void create(T model, DeferredResponse deferredResponse);
 	Project get(int id);
-	List<Project> get(User user);
-	void update(Project project);
-	void delete(Project project);
+	List<T> get(User user);
+	void update(T model);
+	void delete(T model);
 }
