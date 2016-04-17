@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 /**
  * Created by X8 on 28.03.2016.
  */
-public class Atribute implements ModelInterface {
+public class Atribute implements ParentInterface<Clazz>{
 
     @NotNull
     @Size(min=0,max =40)
@@ -29,11 +29,11 @@ public class Atribute implements ModelInterface {
         return name;
     }
 
-    public Clazz getClazz() {
+    public Clazz getParent() {
         return clazz;
     }
 
-    public void setClazz(Clazz clazz) {
+    public void setParent(Clazz clazz) {
         this.clazz = clazz;
     }
 

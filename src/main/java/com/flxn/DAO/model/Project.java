@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
  * Created by X8 on 28.03.2016.
  */
 
-public class Project implements ModelInterface {
+public class Project implements ParentInterface<User> {
     @NotNull
     @Size (min=0,max=30)
     private String name;
@@ -40,7 +40,7 @@ public class Project implements ModelInterface {
         return description;
     }
 
-    public User getUser() {
+    public User getParent() {
         return user;
     }
 
@@ -52,7 +52,7 @@ public class Project implements ModelInterface {
         this.name = name;
     }
 
-    public void setUser(User user) {
+    public void setParent(User user) {
         this.user = user;
     }
 }

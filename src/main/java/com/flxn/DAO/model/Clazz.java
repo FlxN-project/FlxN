@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 /**
  * Created by X8 on 28.03.2016.
  */
-public class Clazz implements  ModelInterface {
+public class Clazz implements  ParentInterface<Project> {
 
     @NotNull
     @Size(min=0,max =40)
@@ -28,7 +28,7 @@ public class Clazz implements  ModelInterface {
         return id;
     }
 
-    public Project getProject() {
+    public Project getParent() {
         return project;
     }
 
@@ -52,7 +52,7 @@ public class Clazz implements  ModelInterface {
         this.id = id;
     }
 
-    public void setProject(Project project) {
+    public void setParent(Project project) {
         this.project = project;
     }
 }

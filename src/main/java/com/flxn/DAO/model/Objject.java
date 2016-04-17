@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 /**
  * Created by X8 on 28.03.2016.
  */
-public class Objject implements ModelInterface{
+public class Objject implements ParentInterface<Clazz>{
 
     @NotNull
     @Size(min=0,max =40)
@@ -25,7 +25,7 @@ public class Objject implements ModelInterface{
         return id;
     }
 
-    public Clazz getClazz() {
+    public Clazz getParent() {
         return clazz;
     }
 
@@ -37,7 +37,7 @@ public class Objject implements ModelInterface{
         this.id = id;
     }
 
-    public void setClazz(Clazz clazz) {
+    public void setParent(Clazz clazz) {
         this.clazz = clazz;
     }
 

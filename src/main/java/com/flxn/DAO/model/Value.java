@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 /**
  * Created by X8 on 28.03.2016.
  */
-public class Value implements  ModelInterface{
+public class Value implements  ParentInterface<Objject>{
     private int id;
     private Atribute atribute;
     private Objject objject;
@@ -30,7 +30,7 @@ public class Value implements  ModelInterface{
         return weight;
     }
 
-    public Objject getObjject() {
+    public Objject getParent() {
         return objject;
     }
 
@@ -46,7 +46,7 @@ public class Value implements  ModelInterface{
         this.atribute = atribute;
     }
 
-    public void setObjject(Objject objject) {
+    public void setParent(Objject objject) {
         this.objject = objject;
     }
 
