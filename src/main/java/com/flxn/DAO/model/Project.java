@@ -36,7 +36,7 @@ public class Project implements ParentInterface<User> {
         return id;
     }
 
-    public String getDescription() {
+	public String getDescription() {
         return description;
     }
 
