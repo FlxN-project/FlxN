@@ -5,7 +5,6 @@ import com.flxn.service.impl.UserServiceImpl;
 import com.flxn.service.logic.DeferredResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;

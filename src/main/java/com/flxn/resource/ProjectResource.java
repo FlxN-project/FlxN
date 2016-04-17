@@ -6,6 +6,7 @@ import com.flxn.resource.logic.MethodExecutor;
 import com.flxn.service.api.BasicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -42,8 +43,8 @@ public class ProjectResource {
 	}
 
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<?> update(@Validated @RequestBody Project project,
-											  @PathVariable("id") int id,
+	public ResponseEntity<?> update(@PathVariable("id") int id,
+											  @Validated @RequestBody Project project,
 											  BindingResult bindingResults,
 											  HttpServletRequest request){
 		User auth = (User) request.getAttribute("auth");
