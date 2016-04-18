@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface BasicService<T> extends Service{
 	void create(T model, DeferredResponse deferredResponse);
-	void get(int id, DeferredResponse deferredResponse);
+	void get(int id, DeferredResponse deferredResponse,int userid);
 	void get(User user, DeferredResponse deferredResponse);
 	void update(T model, DeferredResponse deferredResponse);
 	void delete(T model, DeferredResponse deferredResponse);

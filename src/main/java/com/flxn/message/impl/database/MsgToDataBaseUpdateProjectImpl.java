@@ -16,18 +16,25 @@ public class MsgToDataBaseUpdateProjectImpl extends MsgToDataBaseWithDefer {
 
 	private Project project;
 	private ProjectDao projectDao;
+	private int userid;
 
-	public MsgToDataBaseUpdateProjectImpl(Address to, Address from, DeferredResponse deferredResponse, Project project, ProjectDao projectDao) {
+	public MsgToDataBaseUpdateProjectImpl(Address to,
+													  Address from,
+													  DeferredResponse deferredResponse,
+													  Project project,
+													  ProjectDao projectDao,
+													  int userid) {
 		super(to, from, deferredResponse);
 		this.project = project;
 		this.projectDao = projectDao;
+		this.userid = userid;
 	}
 
 	@Override
 	public void exec(DataBaseServiceImpl dataBaseService) {
 		Msg back;
 		try {
-			projectDao.update(project);
+			projectDao.update(project,userid);
 			deferredResponse.setData(null, null);
 			back = new MsgToProjectServiceUpdateResultImpl(getFrom(), getTo(), deferredResponse);
 		}catch (UnsupportedOperationException e){

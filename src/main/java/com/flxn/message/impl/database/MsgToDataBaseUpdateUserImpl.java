@@ -17,18 +17,25 @@ public class MsgToDataBaseUpdateUserImpl extends MsgToDataBaseWithDefer {
 
 	private User user;
 	private UserDao userDao;
+	private int userid;
 
-	public MsgToDataBaseUpdateUserImpl(Address to, Address from, User user, UserDao userDao,DeferredResponse deferredResponse) {
+	public MsgToDataBaseUpdateUserImpl(Address to,
+												  Address from,
+												  User user,
+												  UserDao userDao,
+												  DeferredResponse deferredResponse,
+												  int userid) {
 		super(to, from, deferredResponse);
 		this.user = user;
 		this.userDao = userDao;
+		this.userid = userid;
 	}
 
 	@Override
 	public void exec(DataBaseServiceImpl dataBaseService) {
 		Msg back;
 		try {
-			userDao.update(user);
+			userDao.update(user,userid);
 			deferredResponse.setData(null, null);
 			back = new MsgToUserServiceUpdateResultImpl(getFrom(), getTo(), deferredResponse);
 		}catch (UnsupportedOperationException e){

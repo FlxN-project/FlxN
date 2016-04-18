@@ -16,18 +16,25 @@ public class MsgToDataBaseDeleteProjectImpl extends MsgToDataBaseWithDefer {
 
 	private Project project;
 	private ProjectDao projectDao;
+	private int userid;
 
-	public MsgToDataBaseDeleteProjectImpl(Address to, Address from, DeferredResponse deferredResponse, Project project, ProjectDao projectDao) {
+	public MsgToDataBaseDeleteProjectImpl(Address to,
+													  Address from,
+													  DeferredResponse deferredResponse,
+													  Project project,
+													  ProjectDao projectDao,
+													  int userid) {
 		super(to, from, deferredResponse);
 		this.project = project;
 		this.projectDao = projectDao;
+		this.userid = userid;
 	}
 
 	@Override
 	public void exec(DataBaseServiceImpl dataBaseService) {
 		Msg back;
 		try {
-			projectDao.delete(project);
+			projectDao.delete(project,userid);
 			deferredResponse.setData(null, null);
 			back = new MsgToProjectServiceDeleteResultImpl(getFrom(), getTo(), deferredResponse);
 		}catch (UnsupportedOperationException e){

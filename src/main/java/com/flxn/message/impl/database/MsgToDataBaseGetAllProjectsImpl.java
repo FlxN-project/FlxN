@@ -19,16 +19,23 @@ public class MsgToDataBaseGetAllProjectsImpl extends MsgToDataBaseWithDefer {
 
 	private User user;
 	private ProjectDao projectDao;
+	private int userid;
 
-	public MsgToDataBaseGetAllProjectsImpl(Address to, Address from, DeferredResponse deferredResponse, User user, ProjectDao projectDao) {
+	public MsgToDataBaseGetAllProjectsImpl(Address to,
+														Address from,
+														DeferredResponse deferredResponse,
+														User user,
+														ProjectDao projectDao,
+														int userid) {
 		super(to, from, deferredResponse);
 		this.user = user;
 		this.projectDao = projectDao;
+		this.userid = userid;
 	}
 
 	@Override
 	public void exec(DataBaseServiceImpl dataBaseService) {
-		List<Project> projects = projectDao.getProjectListByUser(user);
+		List<Project> projects = projectDao.getProjectListByUser(user,userid);
 		if(projects == null)
 			deferredResponse.setData(null, new UnsupportedOperationException());
 		else

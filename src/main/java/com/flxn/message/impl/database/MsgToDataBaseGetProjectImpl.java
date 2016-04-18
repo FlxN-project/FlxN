@@ -15,16 +15,23 @@ import com.flxn.service.logic.DeferredResponse;
 public class MsgToDataBaseGetProjectImpl extends MsgToDataBaseWithDefer {
 	private int id;
 	private ProjectDao projectDao;
+	private int userid;
 
-	public MsgToDataBaseGetProjectImpl(Address to, Address from, DeferredResponse deferredResponse, int id, ProjectDao projectDao) {
+	public MsgToDataBaseGetProjectImpl(Address to,
+												  Address from,
+												  DeferredResponse deferredResponse,
+												  int id,
+												  ProjectDao projectDao,
+												  int userid) {
 		super(to, from, deferredResponse);
 		this.id = id;
 		this.projectDao = projectDao;
+		this.userid = userid;
 	}
 
 	@Override
 	public void exec(DataBaseServiceImpl dataBaseService) {
-		Project project = projectDao.getById(id);
+		Project project = projectDao.getById(id,userid);
 		if(project == null)
 			deferredResponse.setData(null, new UnsupportedOperationException());
 		else

@@ -69,7 +69,8 @@ public class UserServiceImpl implements UserService,Runnable{
 			getAddress(),
 			user,
 			userDao,
-			deferredResponse
+			deferredResponse,
+			user.getId()
 		);
 		messageSystem.sendMessage(updateUser);
 	}

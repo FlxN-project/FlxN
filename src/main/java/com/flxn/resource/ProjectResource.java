@@ -54,8 +54,10 @@ public class ProjectResource {
 	}
 
 	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> get(@PathVariable("id") int id){
-		return getExecutor().get(id);
+	public ResponseEntity<?> get(@PathVariable("id") int id,
+										  HttpServletRequest request){
+		User auth = (User) request.getAttribute("auth");
+		return getExecutor().get(id,auth.getId());
 	}
 
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
@@ -65,7 +67,11 @@ public class ProjectResource {
 	}
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<?> delete(@PathVariable("id") int id){
-		return getExecutor().delete(id, new Project());
+	public ResponseEntity<?> delete(@PathVariable("id") int id,
+											  HttpServletRequest request){
+		User auth = (User) request.getAttribute("auth");
+		Project project = new Project();
+		project.setParent(auth);
+		return getExecutor().delete(id, project);
 	}
 }

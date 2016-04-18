@@ -33,7 +33,7 @@ public class MethodExecutor<T extends ModelInterface> {
 		return new ResponseEntity(HttpStatus.CREATED);
 	}
 
-	public ResponseEntity<?> update(int id, T model, BindingResult bindingResults){//need to edit dao
+	public ResponseEntity<?> update(int id, T model, BindingResult bindingResults){
 		if (bindingResults.hasErrors())
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		DeferredResponse<T> deferredResponse = new DeferredResponse<>();
@@ -45,9 +45,9 @@ public class MethodExecutor<T extends ModelInterface> {
 		return new ResponseEntity(HttpStatus.OK);
 	}
 
-	public ResponseEntity<?> get(int id){
+	public ResponseEntity<?> get(int id,int userid){
 		DeferredResponse<T> deferredResponse = new DeferredResponse<>();
-		basicService.get(id,deferredResponse);
+		basicService.get(id,deferredResponse,userid);
 		deferredResponse.defer();
 		if(deferredResponse.getException()!=null)
 			return new ResponseEntity(HttpStatus.CONFLICT);

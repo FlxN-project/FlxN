@@ -56,19 +56,22 @@ public class ProjectServiceImpl implements BasicService<Project>,Runnable{
 			getAddress(),
 			project,
 			projectDao,
-			deferredResponse
+			deferredResponse,
+			project.getParent().getId(),
+			project.getParent().getId()
 		);
 		messageSystem.sendMessage(createProject);
 	}
 
 	@Override
-	public void get(int id, DeferredResponse deferredResponse) {
+	public void get(int id, DeferredResponse deferredResponse,int userid) {
 		MsgToDataBaseGetProjectImpl getProject = new MsgToDataBaseGetProjectImpl(
 			messageSystem.getService(DataBaseServiceImpl.class),
 			getAddress(),
 			deferredResponse,
 			id,
-			projectDao
+			projectDao,
+			userid
 		);
 		messageSystem.sendMessage(getProject);
 	}
@@ -80,7 +83,8 @@ public class ProjectServiceImpl implements BasicService<Project>,Runnable{
 			getAddress(),
 			deferredResponse,
 			user,
-			projectDao
+			projectDao,
+			user.getId()
 		);
 		messageSystem.sendMessage(getAllProjects);
 	}
@@ -92,7 +96,8 @@ public class ProjectServiceImpl implements BasicService<Project>,Runnable{
 			getAddress(),
 			deferredResponse,
 			project,
-			projectDao
+			projectDao,
+			project.getParent().getId()
 		);
 		messageSystem.sendMessage(updateProject);
 	}
@@ -104,7 +109,8 @@ public class ProjectServiceImpl implements BasicService<Project>,Runnable{
 			getAddress(),
 			deferredResponse,
 			project,
-			projectDao
+			projectDao,
+			project.getParent().getId()
 		);
 		messageSystem.sendMessage(deleteProject);
 	}
