@@ -9,7 +9,7 @@ import java.util.List;
  * Created by X8 on 29.03.2016.
  */
 public interface ClazzDao extends GenericDao<Clazz> {
-     List<Clazz> getClazzByProject(Project project);
+     List<Clazz> getClazzByProject(Project project, int id);
      boolean exist(int id);
      boolean exist (Clazz clazz);
      String INSERT_CLAZZ="INSERT INTO \"CLASSES\"  VALUES (DEFAULT,?,?,?)";

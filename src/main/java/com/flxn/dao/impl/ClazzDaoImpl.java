@@ -20,9 +20,11 @@ public class ClazzDaoImpl implements ClazzDao,OwnerSecurityInterface{
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public List<Clazz> getClazzByProject(Project project) {
+    public List<Clazz> getClazzByProject(Project project, int userid) {
+        if (existParentOwner(project.getId(),userid)){
         List<Clazz> clazzs=jdbcTemplate.query(SELECT_CLAZZ_LIST_BY_PROJECT_ID,new Object[]{project.getId()},new ClazzRowMapper());
-        return clazzs;
+        return clazzs;}
+        else{return null;}
     }
 
     @Override
@@ -39,27 +41,30 @@ public class ClazzDaoImpl implements ClazzDao,OwnerSecurityInterface{
     }
 
     @Override
-    public void create(Clazz object) {
-        if(!exist(object)) {
+    public void create(Clazz object, int projectid, int userid) {
+        if(!exist(object) && existParentOwner(projectid,userid)) {
             jdbcTemplate.update(INSERT_CLAZZ,new Object[]{object.getName(),object.getParent().getId(),object.getDescription()});
         }else{
             throw new UnsupportedOperationException();}
     }
 
     @Override
-    public void delete(Clazz object,int id) {
-        if(exist(object) && existOwner(object.getId(),id)) {
+    public void delete(Clazz object,int userid) {
+        if(exist(object) && existOwner(object.getId(),userid)) {
             jdbcTemplate.update(DELETE_CLAZZ_BY_ID,new Object[]{object.getId()});
         }else{
             throw new UnsupportedOperationException();}
     }
 
     @Override
-    public void update(Clazz object, int id) {
-        if(!exist(object) && existOwner(object.getId(),id)) {
-            jdbcTemplate.update(UPATE_CLAZZ_BY_ID,new Object[]{object.getName(),object.getDescription(),object.getId()});
-        }else{
-            throw new UnsupportedOperationException();}
+    public void update(Clazz object, int userid) {
+        if(!exist(object) && existOwner(object.getId(),userid)) {
+            jdbcTemplate.update(UPATE_CLAZZ_BY_ID,new Object[]{object.getName(),object.getDescription(),object.getId()});}
+            else
+                if(exist(object.getId()) && existOwner(object.getId(),userid)){
+                    jdbcTemplate.update(UPATE_CLAZZ_BY_ID,new Object[]{object.getName(),object.getDescription(),object.getId()});}
+                    else{
+                        throw new UnsupportedOperationException();}
     }
 
     @Override
@@ -71,8 +76,14 @@ public class ClazzDaoImpl implements ClazzDao,OwnerSecurityInterface{
     }
 
     @Override
-    public boolean existOwner(int idobject, int id) {
-        boolean result=jdbcTemplate.queryForObject(CLAZZ_OWNER_BY_ID,new Object[]{idobject},Integer.class)==id;
+    public boolean existOwner(int idobject, int userid) {
+        boolean result=jdbcTemplate.queryForObject(CLAZZ_OWNER_BY_ID,new Object[]{idobject},Integer.class)==userid;
+        return result;
+    }
+
+    @Override
+    public boolean existParentOwner(int projectid, int userid) {
+        boolean result=jdbcTemplate.queryForObject(PROJECT_OWNER_BY_ID,new Object[]{projectid},Integer.class)==userid;
         return result;
     }
 }

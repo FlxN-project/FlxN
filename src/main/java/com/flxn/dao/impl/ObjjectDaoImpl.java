@@ -32,14 +32,16 @@ public class ObjjectDaoImpl implements ObjjectDao,OwnerSecurityInterface {
     }
 
     @Override
-    public List<Objject> getObjjectListByClazz(Clazz clazz) {
+    public List<Objject> getObjjectListByClazz(Clazz clazz, int userid) {
+        if(existParentOwner(clazz.getId(),userid)){
         List<Objject> objjects=jdbcTemplate.query(SELECT_OBJJECT_LIST_BY_CLAZZ_ID,new Object[]{clazz.getId()},new ObjjectRowMapper());
-        return objjects;
+        return objjects;}
+        else {return null;}
     }
 
     @Override
-    public void create(Objject object) {
-        if(!exist(object)){
+    public void create(Objject object, int clazzid, int userid) {
+        if(!exist(object) && existParentOwner(clazzid,userid)){
            jdbcTemplate.update(INSERT_OBJJECT,new Object[]{object.getLink(),object.getParent().getId()});
         }
         else {
@@ -48,8 +50,8 @@ public class ObjjectDaoImpl implements ObjjectDao,OwnerSecurityInterface {
     }
 
     @Override
-    public void delete(Objject object, int id) {
-        if(exist(object) && existOwner(object.getId(),id)){
+    public void delete(Objject object, int userid) {
+        if(exist(object) && existOwner(object.getId(),userid)){
             jdbcTemplate.update(DELETE_OBJJECT_BY_ID,new Object[]{object.getId()});
         } else {
             throw new UnsupportedOperationException();
@@ -57,11 +59,11 @@ public class ObjjectDaoImpl implements ObjjectDao,OwnerSecurityInterface {
     }
 
     @Override
-    public void update(Objject object,int id) {
-        if(!exist(object) && existOwner(object.getId(),id)){
+    public void update(Objject object,int userid) {
+        if(!exist(object) && existOwner(object.getId(),userid)){
             jdbcTemplate.update(UPDATE_OBJJECT_BY_ID,new Object[]{object.getLink(),object.getId()});
         } else
-            if(exist(object.getId()) && existOwner(object.getId(),id)){
+            if(exist(object.getId()) && existOwner(object.getId(),userid)){
                 jdbcTemplate.update(UPDATE_OBJJECT_BY_ID,new Object[]{object.getLink(),object.getId()});
             }else
                     {
@@ -78,8 +80,14 @@ public class ObjjectDaoImpl implements ObjjectDao,OwnerSecurityInterface {
     }
 
     @Override
-    public boolean existOwner(int idobject, int id) {
-        boolean result=jdbcTemplate.queryForObject(OBJJECT_OWNER_BY_ID,new Object[]{idobject},Integer.class)==id;
+    public boolean existOwner(int idobject, int userid) {
+        boolean result=jdbcTemplate.queryForObject(OBJJECT_OWNER_BY_ID,new Object[]{idobject},Integer.class)==userid;
+        return result;
+    }
+
+    @Override
+    public boolean existParentOwner(int clazzid, int userid) {
+        boolean result=jdbcTemplate.queryForObject(CLAZZ_OWNER_BY_ID,new Object[]{clazzid},Integer.class)==userid;
         return result;
     }
 }

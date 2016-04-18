@@ -34,9 +34,11 @@ public class ValueDaoImpl implements ValueDao,OwnerSecurityInterface {
     }
 
     @Override
-    public List<Value> getValueListByObjject(Objject objject) {
+    public List<Value> getValueListByObjject(Objject objject, int userid) {
+        if (existParentOwner(objject.getId(),userid)){
         List<Value> values=jdbcTemplate.query(SELECT_VALUE_LIST_BY_OBJJECT_ID,new Object[]{objject.getId()},new ValueRowMapper());
-        return values;
+        return values;}
+        else {return null;}
     }
 
     @Override
@@ -46,27 +48,27 @@ public class ValueDaoImpl implements ValueDao,OwnerSecurityInterface {
     }
 
     @Override
-    public void create(Value object) {
-        if(!exist(object)){
+    public void create(Value object, int objjectid, int userid) {
+        if(!exist(object) && existParentOwner(objjectid,userid)){
             jdbcTemplate.update(INSERT_VALUE,new Object[]{object.getAtribute().getId(),object.getParent().getId(),object.getWeight()});
         } else{
             throw new UnsupportedOperationException();}
     }
 
     @Override
-    public void delete(Value object, int id) {
-        if(exist(object) && existOwner(object.getId(),id)){
+    public void delete(Value object, int userid) {
+        if(exist(object) && existOwner(object.getId(),userid)){
             jdbcTemplate.update(DELETE_VALUE_BY_ID,new Object[]{object.getId()});
         }else{
             throw new UnsupportedOperationException();}
     }
 
     @Override
-    public void update(Value object, int id) {
-        if(!exist(object) && existOwner(object.getId(),id)){
+    public void update(Value object, int userid) {
+        if(!exist(object) && existOwner(object.getId(),userid)){
             jdbcTemplate.update(UPDATE_VALUE_BY_ID,new Object[]{object.getWeight(),object.getAtribute().getId(),object.getParent().getId()});
         }else
-            if(exist(object.getId()) && existOwner(object.getId(),id)) {
+            if(exist(object.getId()) && existOwner(object.getId(),userid)) {
                 jdbcTemplate.update(UPDATE_VALUE_BY_ID,new Object[]{object.getWeight(),object.getAtribute().getId(),object.getParent().getId()}); }
                      else{ throw new UnsupportedOperationException();}
 
@@ -81,7 +83,13 @@ public class ValueDaoImpl implements ValueDao,OwnerSecurityInterface {
     }
 
     @Override
-    public boolean existOwner(int idobject, int id) {
-        boolean result=jdbcTemplate.queryForObject(VALUE_OWNER_BY_ID,new Object[]{idobject},Integer.class)==id;
+    public boolean existOwner(int idobject, int userid) {
+        boolean result=jdbcTemplate.queryForObject(VALUE_OWNER_BY_ID,new Object[]{idobject},Integer.class)==userid;
         return result;}
+
+    @Override
+    public boolean existParentOwner(int objjectid, int userid) {
+        boolean result=jdbcTemplate.queryForObject(OBJJECT_OWNER_BY_ID,new Object[]{objjectid},Integer.class)==userid;
+        return result;
     }
+}

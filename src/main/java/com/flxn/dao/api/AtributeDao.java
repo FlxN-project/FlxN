@@ -11,7 +11,7 @@ import java.util.List;
 public interface AtributeDao extends  GenericDao<Atribute> {
     boolean exist(int id);
     boolean exist(Atribute atribute);
-    List<Atribute> getAtributeListByClazz(Clazz clazz);
+    List<Atribute> getAtributeListByClazz(Clazz clazz, int id);
     String INSERT_ATRIBUTE="INSERT INTO \"ATTRIBUTES\"  VALUES (DEFAULT,?,?)";
     String UPDATE_ATRIBUTE_BY_ID="UPDATE \"ATTRIBUTES\"  SET \"NAME\"= ? WHERE \"ATTRIBUTE_ID\"=?";
     String DELETE_ATRIBUTE_BY_ID="DELETE FROM \"ATTRIBUTES\" WHERE \"ATTRIBUTE_ID\"=?";

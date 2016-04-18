@@ -11,7 +11,7 @@ import java.util.List;
 public interface ProjectDao extends  GenericDao<Project> {
      boolean exist(Project project);
      boolean exist(int id);
-     List<Project> getProjectListByUser(User user);
+     List<Project> getProjectListByUser(User user, int id);
      String INSERT_PROJECT="INSERT INTO \"PROJECTS\" VALUES(DEFAULT,?,?,?)";
      String UPDATE_PROJECT_BY_ID="UPDATE \"PROJECTS\" SET \"TITLE\"=?,\"DESCRIPTION\"=? WHERE \"PROJECT_ID\"=?";
      String SELECT_PROJECT_BY_ID="SELECT \"TITLE\",\"PROJECT_ID\",\"DESCRIPTION\" FROM \"PROJECTS\"  WHERE \"PROJECT_ID\"=?";

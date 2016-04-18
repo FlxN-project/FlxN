@@ -11,7 +11,7 @@ import java.util.List;
 public interface ObjjectDao extends  GenericDao<Objject> {
     boolean exist (int id);
     boolean exist (Objject objject);
-    List<Objject> getObjjectListByClazz(Clazz clazz);
+    List<Objject> getObjjectListByClazz(Clazz clazz, int id);
     String INSERT_OBJJECT="INSERT INTO \"OBJECTS\"  VALUES (DEFAULT,?,?)";
     String UPDATE_OBJJECT_BY_ID="UPDATE \"OBJECTS\"  SET \"LINK\"= ? WHERE \"OBJECT_ID\"=?";
     String DELETE_OBJJECT_BY_ID="DELETE FROM \"OBJECTS\" WHERE \"OBJECT_ID\"=?";

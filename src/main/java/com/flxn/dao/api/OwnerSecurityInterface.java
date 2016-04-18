@@ -4,7 +4,8 @@ package com.flxn.dao.api;
  * Created by X8 on 17.04.2016.
  */
 public interface OwnerSecurityInterface {
-    boolean existOwner(int idobject,int iduser);
+    boolean existOwner(int objectid,int userid);
+    boolean existParentOwner(int parentid,int userid);
     String VALUE_OWNER_BY_ID="SELECT \"USERS\".\"USER_ID\"\n" +
             "FROM \"USERS\"\n" +
             "INNER JOIN \"PROJECTS\" ON \"PROJECTS\".\"USER_ID\"=\"USERS\".\"USER_ID\" \n" +
@@ -31,7 +32,7 @@ public interface OwnerSecurityInterface {
             "WHERE \"CLASSES\".\"CLASS_ID\"=? ";
     String PROJECT_OWNER_BY_ID="SELECT \"USERS\".\"USER_ID\" FROM \"USERS\" INNER JOIN \"PROJECTS\" ON \"PROJECTS\".\"USER_ID\"=\"USERS\".\"USER_ID\" \n" +
             "WHERE \"PROJECTS\".\"PROJECT_ID\"=? ";
-    String USES_OWNER_BY_ID="SELECT \"USERS\".\"USER_ID\"FROM \"USERS\" WHERE \"USERS\".\"USER_ID\"=? ";
+    String USER_OWNER_BY_ID="SELECT \"USERS\".\"USER_ID\"FROM \"USERS\" WHERE \"USERS\".\"USER_ID\"=? ";
 
 
 }

@@ -12,7 +12,7 @@ import java.util.List;
 public interface ValueDao extends GenericDao<Value> {
     boolean exist(int id);
     boolean exist (Value value);
-    List<Value> getValueListByObjject(Objject objject);
+    List<Value> getValueListByObjject(Objject objject, int id);
     List<Value> getValueListByAtribute(Atribute atribute);
     String INSERT_VALUE="INSERT INTO \"VALUES\"  VALUES (DEFAULT,?,?,?)";
     String UPDATE_VALUE_BY_ID="UPDATE \"VALUES\"  SET \"VALUE\" =? WHERE \"ATTRIBUTE_ID\"=? AND \"OBJECT_ID\"=? ";

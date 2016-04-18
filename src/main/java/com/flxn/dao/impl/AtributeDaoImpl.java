@@ -32,14 +32,16 @@ public class AtributeDaoImpl implements AtributeDao,OwnerSecurityInterface {
     }
 
     @Override
-    public List<Atribute> getAtributeListByClazz(Clazz clazz) {
+    public List<Atribute> getAtributeListByClazz(Clazz clazz,int userid) {
+        if(existParentOwner(clazz.getId(),userid)){
         List<Atribute> atributes=jdbcTemplate.query(SELECT_ATRIBUTE_LIST_BY_CLAZZ_ID,new Object[]{clazz.getId()},new AtributeRowMapper());
-        return atributes;
+        return atributes;}
+        else {return null;}
     }
 
     @Override
-    public void create(Atribute object) {
-        if(!exist(object)){
+    public void create(Atribute object, int clazzId, int userid) {
+        if(!exist(object) && existParentOwner(clazzId,userid)){
             jdbcTemplate.update(INSERT_ATRIBUTE,new Object[]{object.getParent().getId(),object.getName()});
         }else{
             throw new UnsupportedOperationException();
@@ -47,8 +49,8 @@ public class AtributeDaoImpl implements AtributeDao,OwnerSecurityInterface {
     }
 
     @Override
-    public void delete(Atribute object,int id) {
-        if(exist(object) && existOwner(object.getId(),id)){
+    public void delete(Atribute object,int userid) {
+        if(exist(object) && existOwner(object.getId(),userid)){
             jdbcTemplate.update(DELETE_ATRIBUTE_BY_ID,new Object[]{object.getId()});
         }else{
             throw new UnsupportedOperationException();
@@ -56,11 +58,11 @@ public class AtributeDaoImpl implements AtributeDao,OwnerSecurityInterface {
     }
 
     @Override
-    public void update(Atribute object, int id) {
-        if(!exist(object) && existOwner(object.getId(),id)){
+    public void update(Atribute object, int userid) {
+        if(!exist(object) && existOwner(object.getId(),userid)){
             jdbcTemplate.update(UPDATE_ATRIBUTE_BY_ID,new Object[]{object.getName(),object.getId()});
         }else
-            if(exist(object.getId()) && existOwner(object.getId(),id)){
+            if(exist(object.getId()) && existOwner(object.getId(),userid)){
                 jdbcTemplate.update(UPDATE_ATRIBUTE_BY_ID,new Object[]{object.getName(),object.getId()});}
                 else
                     {throw new UnsupportedOperationException();}
@@ -78,8 +80,14 @@ public class AtributeDaoImpl implements AtributeDao,OwnerSecurityInterface {
     }
 
     @Override
-    public boolean existOwner(int idobject, int id) {
-        boolean result=jdbcTemplate.queryForObject(ATTRIBUTE_OWNER_BY_ID,new Object[]{idobject},Integer.class)==id;
+    public boolean existOwner(int idobject, int userid) {
+        boolean result=jdbcTemplate.queryForObject(ATTRIBUTE_OWNER_BY_ID,new Object[]{idobject},Integer.class)==userid;
+        return result;
+    }
+
+    @Override
+    public boolean existParentOwner(int clazzid, int userid) {
+        boolean result=jdbcTemplate.queryForObject(CLAZZ_OWNER_BY_ID,new Object[]{clazzid},Integer.class)==userid;
         return result;
     }
 }
