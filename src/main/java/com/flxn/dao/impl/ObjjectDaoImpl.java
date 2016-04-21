@@ -51,7 +51,7 @@ public class ObjjectDaoImpl implements ObjjectDao,OwnerSecurityInterface {
 
     @Override
     public void delete(Objject object, int userid) {
-        if(exist(object) && existOwner(object.getId(),userid)){
+        if(exist(object.getId()) && existOwner(object.getId(),userid)){
             jdbcTemplate.update(DELETE_OBJJECT_BY_ID,new Object[]{object.getId()});
         } else {
             throw new UnsupportedOperationException();

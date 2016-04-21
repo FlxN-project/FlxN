@@ -57,7 +57,7 @@ public class ValueDaoImpl implements ValueDao,OwnerSecurityInterface {
 
     @Override
     public void delete(Value object, int userid) {
-        if(exist(object) && existOwner(object.getId(),userid)){
+        if(exist(object.getId()) && existOwner(object.getId(),userid)){
             jdbcTemplate.update(DELETE_VALUE_BY_ID,new Object[]{object.getId()});
         }else{
             throw new UnsupportedOperationException();}

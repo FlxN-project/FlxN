@@ -50,7 +50,7 @@ public class AtributeDaoImpl implements AtributeDao,OwnerSecurityInterface {
 
     @Override
     public void delete(Atribute object,int userid) {
-        if(exist(object) && existOwner(object.getId(),userid)){
+        if(exist(object.getId()) && existOwner(object.getId(),userid)){
             jdbcTemplate.update(DELETE_ATRIBUTE_BY_ID,new Object[]{object.getId()});
         }else{
             throw new UnsupportedOperationException();
